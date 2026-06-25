@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#1B1B3A">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Fin Planner">
+  <title>Our Financial Planner — by Vina, Henry & Hiro</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icons/favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <!-- SPLASH SCREEN -->
+  <div id="splash-screen" class="splash-screen">
+    <div class="splash-content">
+      <div class="splash-icon">💰</div>
+      <h1>Our Financial Planner</h1>
+      <p class="splash-sub">by Vina, Henry & Hiro</p>
+      <div class="splash-loader"><div class="loader-bar"></div></div>
+    </div>
+  </div>
+
+  <!-- APP CONTAINER -->
+  <div id="app" class="app-container">
+    <!-- TOP NAV BAR -->
+    <header class="top-nav">
+      <button class="menu-btn" id="menuBtn" aria-label="Menu">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="nav-title">
+        <span class="nav-icon">💰</span>
+        <span>Fin Planner</span>
+      </div>
+      <button class="refresh-btn" id="refreshBtn" aria-label="Refresh">
+        <i class="fas fa-sync-alt"></i>
+      </button>
+    </header>
+
+    <!-- SIDEBAR / MENU DRAWER -->
+    <nav class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <span class="sidebar-icon">💰</span>
+        <span class="sidebar-title">Our Financial Planner</span>
+        <button class="sidebar-close" id="sidebarClose"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="sidebar-user">by Vina, Henry & Hiro</div>
+      <ul class="sidebar-menu">
+        <li><a href="#" class="active" data-page="dashboard"><i class="fas fa-home"></i> Dashboard</a></li>
+        <li><a href="#" data-page="transactions"><i class="fas fa-exchange-alt"></i> Transaksi</a></li>
+        <li><a href="#" data-page="budget"><i class="fas fa-chart-pie"></i> Budget</a></li>
+        <li><a href="#" data-page="report"><i class="fas fa-file-alt"></i> Laporan</a></li>
+        <li><a href="#" data-page="funds"><i class="fas fa-wallet"></i> Pos Uang</a></li>
+        <li><a href="#" data-page="guide"><i class="fas fa-book"></i> Panduan</a></li>
+      </ul>
+      <div class="sidebar-footer">
+        <small>v1.0 — Data lokal disimpan di browser</small>
+      </div>
+    </nav>
+
+    <!-- OVERLAY -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content" id="mainContent">
+      <!-- PAGE: DASHBOARD -->
+      <section class="page active" id="page-dashboard">
+        <div class="page-header">
+          <h2><i class="fas fa-home"></i> Dashboard</h2>
+          <p class="page-sub">Ringkasan Keuangan Keluarga</p>
+        </div>
+        <div class="summary-cards" id="summaryCards">
+          <div class="card card-total"><div class="card-icon">💳</div><div class="card-label">Total Kas</div><div class="card-value" id="totalKas">Rp 0</div></div>
+          <div class="card card-income"><div class="card-icon">📈</div><div class="card-label">Pemasukan (Bulan Ini)</div><div class="card-value" id="totalIncome">Rp 0</div></div>
+          <div class="card card-expense"><div class="card-icon">📉</div><div class="card-label">Pengeluaran (Bulan Ini)</div><div class="card-value" id="totalExpense">Rp 0</div></div>
+          <div class="card card-sisa"><div class="card-icon">💰</div><div class="card-label">Sisa / Nabung</div><div class="card-value" id="totalSisa">Rp 0</div></div>
+        </div>
+
+        <!-- Funds Monitoring -->
+        <div class="section-card">
+          <div class="section-title"><i class="fas fa-wallet"></i> Monitoring Pos Uang</div>
+          <div class="funds-grid" id="fundsGrid"></div>
+        </div>
+
+        <!-- Budget vs Realisasi -->
+        <div class="section-card">
+          <div class="section-title"><i class="fas fa-chart-bar"></i> Budget vs Realisasi — Juni 2026</div>
+          <div class="table-responsive">
+            <table class="data-table" id="dashboardBudgetTable">
+              <thead><tr><th>Kategori</th><th>Budget</th><th>Realisasi</th><th>Sisa</th><th>Status</th></tr></thead>
+              <tbody id="dashboardBudgetBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- PAGE: TRANSACTIONS -->
+      <section class="page" id="page-transactions">
+        <div class="page-header">
+          <h2><i class="fas fa-exchange-alt"></i> Transaksi</h2>
+          <p class="page-sub">Database Transaksi Keuangan</p>
+        </div>
+        <div class="section-card">
+          <div class="filter-bar">
+            <input type="text" id="transSearch" placeholder="🔍 Cari transaksi..." class="search-input">
+            <select id="transFilterJenis" class="filter-select"><option value="">Semua Jenis</option><option>Masuk</option><option>Keluar</option><option>Pindah</option></select>
+            <select id="transFilterKategori" class="filter-select"><option value="">Semua Kategori</option></select>
+          </div>
+          <div class="table-responsive">
+            <table class="data-table" id="transTable">
+              <thead><tr><th>ID</th><th>Tanggal</th><th>Jenis</th><th>Kategori</th><th>Keterangan</th><th>Nominal</th><th>Pos</th></tr></thead>
+              <tbody id="transBody"></tbody>
+            </table>
+          </div>
+          <div class="table-footer" id="transFooter">Menampilkan semua transaksi</div>
+        </div>
+        <!-- Add Transaction Button -->
+        <button class="fab-btn" id="addTransBtn"><i class="fas fa-plus"></i></button>
+      </section>
+
+      <!-- PAGE: BUDGET -->
+      <section class="page" id="page-budget">
+        <div class="page-header">
+          <h2><i class="fas fa-chart-pie"></i> Budget Planning</h2>
+          <p class="page-sub">Target per Kategori — Juni 2026</p>
+        </div>
+        <div class="section-card">
+          <div class="section-title"><i class="fas fa-arrow-up"></i> Target Pemasukan</div>
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead><tr><th>Kategori</th><th>Target</th><th>Aktual</th><th>Selisih</th><th>%</th></tr></thead>
+              <tbody id="budgetIncomeBody"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="section-card">
+          <div class="section-title"><i class="fas fa-arrow-down"></i> Budget Pengeluaran</div>
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead><tr><th>Kategori</th><th>Budget</th><th>PIC</th><th>Prioritas</th></tr></thead>
+              <tbody id="budgetExpenseBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- PAGE: REPORT -->
+      <section class="page" id="page-report">
+        <div class="page-header">
+          <h2><i class="fas fa-file-alt"></i> Laporan Bulanan</h2>
+          <p class="page-sub">Ringkasan & Over Budget Check — Juni 2026</p>
+        </div>
+        <div class="section-card">
+          <div class="report-summary" id="reportSummary"></div>
+        </div>
+        <div class="section-card">
+          <div class="section-title"><i class="fas fa-exclamation-triangle"></i> Over Budget Check</div>
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead><tr><th>Kategori</th><th>Budget</th><th>Realisasi</th><th>Selisih</th><th>%</th><th>Status</th></tr></thead>
+              <tbody id="reportOverBudgetBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- PAGE: FUNDS -->
+      <section class="page" id="page-funds">
+        <div class="page-header">
+          <h2><i class="fas fa-wallet"></i> Pos Uang</h2>
+          <p class="page-sub">Detail Monitoring Saldo</p>
+        </div>
+        <div class="section-card">
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead><tr><th>Pos Uang</th><th>Saldo Skrg</th><th>Saldo Awal</th><th>Mutasi</th><th>Target</th><th>Catatan</th></tr></thead>
+              <tbody id="fundsBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- PAGE: GUIDE -->
+      <section class="page" id="page-guide">
+        <div class="page-header">
+          <h2><i class="fas fa-book"></i> Panduan</h2>
+          <p class="page-sub">Cara Input Transaksi & Informasi Kategori</p>
+        </div>
+        <div class="section-card">
+          <div class="section-title"><i class="fas fa-keyboard"></i> Format Input Via Chat</div>
+          <div class="guide-grid" id="guideFormat"></div>
+        </div>
+        <div class="section-card">
+          <div class="section-title"><i class="fas fa-tags"></i> Kategori Pemasukan</div>
+          <div class="guide-kategori" id="guideIncomeKategori"></div>
+        </div>
+        <div class="section-card">
+          <div class="section-title"><i class="fas fa-tags"></i> Kategori Pengeluaran</div>
+          <div class="guide-kategori" id="guideExpenseKategori"></div>
+        </div>
+      </section>
+    </main>
+
+    <!-- BOTTOM NAV (mobile) -->
+    <nav class="bottom-nav" id="bottomNav">
+      <a href="#" class="active" data-page="dashboard"><i class="fas fa-home"></i><span>Dashboard</span></a>
+      <a href="#" data-page="transactions"><i class="fas fa-exchange-alt"></i><span>Transaksi</span></a>
+      <a href="#" data-page="budget"><i class="fas fa-chart-pie"></i><span>Budget</span></a>
+      <a href="#" data-page="report"><i class="fas fa-file-alt"></i><span>Laporan</span></a>
+      <a href="#" data-page="funds"><i class="fas fa-wallet"></i><span>Pos Uang</span></a>
+    </nav>
+  </div>
+
+  <!-- MODAL: Add/Edit Transaction -->
+  <div class="modal" id="transModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modalTitle">✏️ Tambah Transaksi</h3>
+        <button class="modal-close" id="modalClose"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Tanggal</label>
+          <input type="date" id="formTanggal">
+        </div>
+        <div class="form-group">
+          <label>Jenis</label>
+          <select id="formJenis"><option>Masuk</option><option>Keluar</option><option>Pindah</option></select>
+        </div>
+        <div class="form-group">
+          <label>Kategori</label>
+          <select id="formKategori"></select>
+        </div>
+        <div class="form-group">
+          <label>Keterangan</label>
+          <input type="text" id="formKeterangan" placeholder="Mis: Gaji Juni 2026">
+        </div>
+        <div class="form-group">
+          <label>Nominal (Rp)</label>
+          <input type="number" id="formNominal" placeholder="0" min="0">
+        </div>
+        <div class="form-group">
+          <label>Pos Asal</label>
+          <select id="formPosAsal"></select>
+        </div>
+        <div class="form-group" id="formPosTujuanGroup">
+          <label>Pos Tujuan (khusus Pindah)</label>
+          <select id="formPosTujuan"></select>
+        </div>
+        <div class="form-group">
+          <label>Input</label>
+          <select id="formInput"><option>Manual</option><option>Chat</option></select>
+        </div>
+        <div class="form-group">
+          <label>Diinput Oleh</label>
+          <select id="formOleh"><option>Vina</option><option>Henry</option></select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="modalCancel">Batal</button>
+        <button class="btn btn-primary" id="modalSave">💾 Simpan</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/chart.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
