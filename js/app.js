@@ -174,6 +174,18 @@
 
     addCatBtn: '#addCatBtn',
     addFundBtn: '#addFundBtn',
+
+    // Transfer
+    transferModal: '#transferModal',
+    transferBtn: '#transferBtn',
+    transferTanggal: '#transferTanggal',
+    transferDari: '#transferDari',
+    transferKe: '#transferKe',
+    transferNominal: '#transferNominal',
+    transferKeterangan: '#transferKeterangan',
+    transferOleh: '#transferOleh',
+    transferSaldoDari: '#transferSaldoDari',
+    transferSaldoKe: '#transferSaldoKe',
   };
 
   // ===== STATE =====
@@ -287,6 +299,14 @@
     byId('fundModalClose').addEventListener('click', closeFundModal);
     byId('fundModalCancel').addEventListener('click', closeFundModal);
     byId('fundModalSave').addEventListener('click', saveFund);
+
+    // Transfer
+    byId('transferBtn').addEventListener('click', () => openTransferModal());
+    byId('transferModalClose').addEventListener('click', closeTransferModal);
+    byId('transferCancel').addEventListener('click', closeTransferModal);
+    byId('transferSave').addEventListener('click', saveTransfer);
+    byId('transferDari').addEventListener('change', updateTransferSaldo);
+    byId('transferKe').addEventListener('change', updateTransferSaldo);
   }
 
   function byId(id) {
@@ -502,6 +522,102 @@
     closeFundModal();
     refreshFormPosOptions();
     renderAll();
+  }
+
+  // ===== TRANSFER MODAL =====
+  function openTransferModal() {
+    byId('transferTanggal').value = new Date().toISOString().split('T')[0];
+    byId('transferNominal').value = '';
+    byId('transferKeterangan').value = '';
+    byId('transferOleh').value = 'Vina';
+
+    // Populate dropdowns
+    let funds = [];
+    try { funds = AppData.getFunds(); } catch(e) { funds = []; }
+
+    const dariSel = byId('transferDari');
+    const keSel = byId('transferKe');
+    dariSel.innerHTML = '';
+    keSel.innerHTML = '';
+
+    funds.forEach(f => {
+      dariSel.innerHTML += '<option value="' + f.id + '">' + f.name + ' (' + AppData.formatRp(f.balance || 0) + ')</option>';
+      keSel.innerHTML += '<option value="' + f.id + '">' + f.name + ' (' + AppData.formatRp(f.balance || 0) + ')</option>';
+    });
+
+    // Default: pos pertama → pos kedua (jika ada minimal 2)
+    if (funds.length >= 2) {
+      dariSel.value = funds[0].id;
+      keSel.value = funds[1].id;
+    }
+
+    updateTransferSaldo();
+    byId('transferModal').classList.add('open');
+  }
+
+  function closeTransferModal() {
+    byId('transferModal').classList.remove('open');
+  }
+
+  function updateTransferSaldo() {
+    let funds = [];
+    try { funds = AppData.getFunds(); } catch(e) { funds = []; }
+
+    const dariId = byId('transferDari').value;
+    const keId = byId('transferKe').value;
+
+    const dariFund = funds.find(f => f.id === dariId);
+    const keFund = funds.find(f => f.id === keId);
+
+    byId('transferSaldoDari').textContent = 'Saldo: ' + AppData.formatRp(dariFund ? (dariFund.balance || 0) : 0);
+    byId('transferSaldoKe').textContent = 'Saldo: ' + AppData.formatRp(keFund ? (keFund.balance || 0) : 0);
+  }
+
+  function saveTransfer() {
+    const tanggal = byId('transferTanggal').value;
+    const posAsal = byId('transferDari').value;
+    const posTujuan = byId('transferKe').value;
+    const nominal = parseFloat(byId('transferNominal').value) || 0;
+    const keterangan = byId('transferKeterangan').value.trim() || ('Transfer ' + posAsal + ' → ' + posTujuan);
+    const oleh = byId('transferOleh').value;
+
+    // Validasi
+    if (!tanggal) { alert('Tanggal harus diisi!'); return; }
+    if (posAsal === posTujuan) { alert('Pos asal dan tujuan tidak boleh sama!'); return; }
+    if (nominal <= 0) { alert('Nominal harus lebih dari 0!'); return; }
+
+    // Cek saldo cukup
+    let funds = [];
+    try { funds = AppData.getFunds(); } catch(e) { funds = []; }
+    const dariFund = funds.find(f => f.id === posAsal);
+    if (dariFund && (dariFund.balance || 0) < nominal) {
+      if (!confirm('Saldo ' + posAsal + ' tidak cukup (' + AppData.formatRp(dariFund.balance || 0) + '). Tetap transfer?')) {
+        return;
+      }
+    }
+
+    const transData = {
+      tanggal: tanggal,
+      jenis: 'Pindah',
+      kategori: 'Transfer Dana',
+      keterangan: keterangan,
+      nominal: nominal,
+      posAsal: posAsal,
+      posTujuan: posTujuan,
+      input: 'Manual',
+      oleh: oleh
+    };
+
+    try {
+      AppData.addTransaction(transData);
+    } catch(e) {
+      alert('Gagal transfer: ' + e.message);
+      return;
+    }
+
+    closeTransferModal();
+    renderAll();
+    alert('Transfer berhasil! ' + posAsal + ' → ' + posTujuan + ': ' + AppData.formatRp(nominal));
   }
 
   // ===== RENDER =====
