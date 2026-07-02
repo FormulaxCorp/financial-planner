@@ -168,7 +168,7 @@ const SupabaseData = (() => {
 
   // ===== ADD FUND =====
   async function addFund(id, name, desc, target) {
-    const newFund = { id: id, name: name || id, desc: desc || '', target: target || '', saldoAwal: 0, saldo: 0 };
+    const newFund = { id: id, name: name || id, desc: desc || '', target: target || '', saldoAwal: 0, saldo: 0, balance: 0, startBalance: 0 };
     cache.funds.push(newFund);
     return await saveDoc('funds', { items: cache.funds });
   }
