@@ -231,21 +231,24 @@ const SupabaseData = (() => {
   // ===== UPDATE FUNDS FROM TRANSACTIONS =====
   function updateFundsFromTransactions() {
     // Reset all fund saldos to saldoAwal
-    cache.funds.forEach(f => { f.saldo = f.saldoAwal || 0; });
+    cache.funds.forEach(f => { 
+      f.saldo = f.saldoAwal || 0;
+      f.balance = f.saldoAwal || 0;
+    });
 
     // Apply transactions
     cache.transactions.forEach(t => {
       if (t.jenis === 'Masuk') {
         const fund = cache.funds.find(f => f.id === t.posAsal);
-        if (fund) fund.saldo += t.nominal;
+        if (fund) { fund.saldo += t.nominal; fund.balance = fund.saldo; }
       } else if (t.jenis === 'Keluar') {
         const fund = cache.funds.find(f => f.id === t.posAsal);
-        if (fund) fund.saldo -= t.nominal;
+        if (fund) { fund.saldo -= t.nominal; fund.balance = fund.saldo; }
       } else if (t.jenis === 'Pindah') {
         const from = cache.funds.find(f => f.id === t.posAsal);
         const to = cache.funds.find(f => f.id === t.posTujuan);
-        if (from) from.saldo -= t.nominal;
-        if (to) to.saldo += t.nominal;
+        if (from) { from.saldo -= t.nominal; from.balance = from.saldo; }
+        if (to) { to.saldo += t.nominal; to.balance = to.saldo; }
       }
     });
   }
