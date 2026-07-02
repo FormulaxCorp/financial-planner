@@ -131,6 +131,16 @@ const SupabaseData = (() => {
     return await saveDoc('budget', { income: budgetIncome, expense: budgetExpense });
   }
 
+  async function setBudgetIncome(data) {
+    cache.budgetIncome = data;
+    return await saveDoc('budget', { income: data, expense: cache.budgetExpense });
+  }
+
+  async function setBudgetExpense(data) {
+    cache.budgetExpense = data;
+    return await saveDoc('budget', { income: cache.budgetIncome, expense: data });
+  }
+
   // ===== CATEGORIES =====
   function getIncomeCats() {
     return [...cache.incomeCats];
@@ -267,6 +277,19 @@ const SupabaseData = (() => {
     return { totalIncome, totalExpense, sisa: totalIncome - totalExpense };
   }
 
+  // ===== GET EXPENSE BY CATEGORY =====
+  function getExpenseByCategory() {
+    const current = new Date();
+    const month = current.getFullYear() + '-' + String(current.getMonth() + 1).padStart(2, '0');
+    const result = {};
+    cache.transactions.forEach(t => {
+      if (t.jenis === 'Keluar' && getMonth(t.tanggal) === month) {
+        result[t.kategori] = (result[t.kategori] || 0) + t.nominal;
+      }
+    });
+    return result;
+  }
+
   return {
     loadAllData,
     saveDoc,
@@ -281,6 +304,8 @@ const SupabaseData = (() => {
     getBudgetIncome,
     getBudgetExpense,
     updateBudget,
+    setBudgetIncome,
+    setBudgetExpense,
     getIncomeCats,
     getExpenseCats,
     updateCategories,
@@ -299,6 +324,7 @@ const SupabaseData = (() => {
     isCurrentMonth,
     generateId,
     updateFundsFromTransactions,
-    getCurrentMonthTotals
+    getCurrentMonthTotals,
+    getExpenseByCategory
   };
 })();

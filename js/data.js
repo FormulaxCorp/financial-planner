@@ -27,6 +27,8 @@ const AppData = (() => {
       type === 'income' ? [...SupabaseData.getIncomeCats(), name] : SupabaseData.getIncomeCats(),
       type === 'expense' ? [...SupabaseData.getExpenseCats(), name] : SupabaseData.getExpenseCats()
     ),
+    addIncomeCategory: (name) => SupabaseData.addIncomeCategory(name),
+    addExpenseCategory: (name, pic, prio) => SupabaseData.addExpenseCategory(name, pic, prio),
     
     getPIC: (cat) => SupabaseData.getPicData()[cat] || 'Vina/Henry',
     getPrioritas: (cat) => SupabaseData.getPrioritasData()[cat] || 'Boleh',
@@ -46,6 +48,9 @@ const AppData = (() => {
     formatDateDisplay: (str) => SupabaseData.formatDateDisplay(str),
     getMonth: (str) => SupabaseData.getMonth(str),
     isCurrentMonth: (str) => SupabaseData.isCurrentMonth(str),
-    generateId: () => SupabaseData.generateId()
+    generateId: () => SupabaseData.generateId(),
+    updateFundsFromTransactions: () => SupabaseData.updateFundsFromTransactions(),
+    getCurrentMonthTotals: () => SupabaseData.getCurrentMonthTotals(),
+    getExpenseByCategory: () => SupabaseData.getExpenseByCategory()
   };
 })();
