@@ -57,6 +57,12 @@ const AppData = (() => {
     getStockItems: () => SupabaseData.getStockItems(),
     addStockItem: (item) => SupabaseData.addStockItem(item),
     updateStockItem: (id, updates) => SupabaseData.updateStockItem(id, updates),
-    deleteStockItem: (id) => SupabaseData.deleteStockItem(id)
+    deleteStockItem: (id) => SupabaseData.deleteStockItem(id),
+    
+    getShoppingItems: () => SupabaseData.getShoppingItems(),
+    addShoppingItem: (item) => SupabaseData.addShoppingItem(item),
+    updateShoppingItem: (id, updates) => SupabaseData.updateShoppingItem(id, updates),
+    deleteShoppingItem: (id) => SupabaseData.deleteShoppingItem(id),
+    resetShoppingList: () => SupabaseData.resetShoppingList()
   };
 })();

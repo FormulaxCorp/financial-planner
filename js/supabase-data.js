@@ -15,7 +15,8 @@ const SupabaseData = (() => {
     expenseCats: [],
     picData: {},
     prioritasData: {},
-    stockItems: []
+    stockItems: [],
+    shoppingItems: []
   };
 
   // Load all data from Supabase
@@ -54,6 +55,9 @@ const SupabaseData = (() => {
             break;
           case 'stock':
             cache.stockItems = row.data.items || [];
+            break;
+          case 'shopping':
+            cache.shoppingItems = row.data.items || [];
             break;
         }
       });
@@ -330,6 +334,36 @@ const SupabaseData = (() => {
     return await saveDoc('stock', { items: cache.stockItems });
   }
 
+  // ===== SHOPPING LIST =====
+  function getShoppingItems() {
+    return [...cache.shoppingItems];
+  }
+
+  async function addShoppingItem(item) {
+    item.id = Date.now() + Math.floor(Math.random() * 1000);
+    item.checked = false;
+    item.createdAt = new Date().toISOString();
+    cache.shoppingItems.push(item);
+    return await saveDoc('shopping', { items: cache.shoppingItems });
+  }
+
+  async function updateShoppingItem(id, updates) {
+    const idx = cache.shoppingItems.findIndex(s => s.id === id);
+    if (idx === -1) return false;
+    cache.shoppingItems[idx] = { ...cache.shoppingItems[idx], ...updates };
+    return await saveDoc('shopping', { items: cache.shoppingItems });
+  }
+
+  async function deleteShoppingItem(id) {
+    cache.shoppingItems = cache.shoppingItems.filter(s => s.id !== id);
+    return await saveDoc('shopping', { items: cache.shoppingItems });
+  }
+
+  async function resetShoppingList() {
+    cache.shoppingItems = [];
+    return await saveDoc('shopping', { items: [] });
+  }
+
   return {
     loadAllData,
     saveDoc,
@@ -370,6 +404,11 @@ const SupabaseData = (() => {
     getStockItems,
     addStockItem,
     updateStockItem,
-    deleteStockItem
+    deleteStockItem,
+    getShoppingItems,
+    addShoppingItem,
+    updateShoppingItem,
+    deleteShoppingItem,
+    resetShoppingList
   };
 })();

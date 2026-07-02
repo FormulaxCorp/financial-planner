@@ -628,6 +628,114 @@ body {
   white-space: nowrap;
 }
 
+/* ===== SHOPPING LIST ===== */
+.shopping-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  text-align: center;
+}
+.shopping-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.shopping-add-bar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  align-items: center;
+}
+.shopping-add-bar .search-input {
+  flex: 1;
+}
+.shopping-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.shopping-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  transition: all 0.2s;
+}
+.shopping-item:hover {
+  background: var(--bg-hover);
+}
+.shopping-checked {
+  opacity: 0.5;
+}
+.shopping-checked .shopping-item-name {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+.shopping-checkbox-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.shopping-checkbox {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.shopping-checkmark {
+  width: 22px;
+  height: 22px;
+  border: 2px solid var(--border-light);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+.shopping-checkbox:checked + .shopping-checkmark {
+  background: var(--positive);
+  border-color: var(--positive);
+}
+.shopping-checkbox:checked + .shopping-checkmark::after {
+  content: '✓';
+  color: #000;
+  font-size: 13px;
+  font-weight: 700;
+}
+.shopping-item-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.shopping-item-name {
+  font-weight: 500;
+  font-size: 14px;
+}
+.shopping-item-note {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+.shopping-delete {
+  opacity: 0.4;
+  transition: opacity 0.2s;
+}
+.shopping-item:hover .shopping-delete {
+  opacity: 1;
+}
+.shopping-empty {
+  text-align: center;
+  color: var(--text-muted);
+  padding: 30px;
+  font-size: 14px;
+}
+
 /* ===== TRANSFER MODAL ===== */
 .transfer-pos-grid {
   display: flex;

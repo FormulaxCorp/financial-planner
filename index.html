@@ -96,6 +96,7 @@
         <li><a href="#" data-page="budget"><i class="fas fa-sliders-h"></i> Budget</a></li>
         <li><a href="#" data-page="transactions"><i class="fas fa-list"></i> Transaksi</a></li>
         <li><a href="#" data-page="stock"><i class="fas fa-boxes-stacked"></i> Stock</a></li>
+        <li><a href="#" data-page="shopping"><i class="fas fa-cart-shopping"></i> Belanja</a></li>
         <li><a href="#" data-page="report"><i class="fas fa-file-alt"></i> Laporan</a></li>
         <li><a href="#" data-page="guide"><i class="fas fa-book"></i> Panduan</a></li>
       </ul>
@@ -245,6 +246,32 @@
           <div class="table-footer" id="stockFooter"></div>
         </div>
         <button class="fab-btn" id="addStockBtn"><i class="fas fa-plus"></i></button>
+      </section>
+
+      <!-- PAGE: SHOPPING LIST -->
+      <section class="page" id="page-shopping">
+        <div class="page-header">
+          <h2>Daftar Belanja</h2>
+          <p class="page-sub">Checklist belanja bulanan keluarga</p>
+        </div>
+        <div class="section-card">
+          <div class="shopping-stats" id="shoppingStats"></div>
+        </div>
+        <div class="section-card">
+          <div class="shopping-header">
+            <div class="section-title">Item Belanja</div>
+            <div class="shopping-actions-bar">
+              <button class="btn btn-secondary btn-sm" id="resetShoppingBtn"><i class="fas fa-rotate"></i> Reset</button>
+            </div>
+          </div>
+          <div class="shopping-add-bar">
+            <input type="text" id="shoppingInput" placeholder="Tambah item belanja..." class="search-input">
+            <input type="text" id="shoppingCatatan" placeholder="Catatan (opsional)" class="search-input" style="max-width:200px">
+            <button class="btn btn-primary btn-sm" id="addShoppingBtn"><i class="fas fa-plus"></i></button>
+          </div>
+          <div class="shopping-list" id="shoppingList"></div>
+          <div class="table-footer" id="shoppingFooter"></div>
+        </div>
       </section>
 
       <!-- PAGE: LAPORAN -->

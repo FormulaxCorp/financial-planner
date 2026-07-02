@@ -204,6 +204,15 @@
     stockBody: '#stockBody',
     stockSummary: '#stockSummary',
     stockFooter: '#stockFooter',
+
+    // Shopping
+    shoppingStats: '#shoppingStats',
+    shoppingList: '#shoppingList',
+    shoppingInput: '#shoppingInput',
+    shoppingCatatan: '#shoppingCatatan',
+    addShoppingBtn: '#addShoppingBtn',
+    resetShoppingBtn: '#resetShoppingBtn',
+    shoppingFooter: '#shoppingFooter',
   };
 
   // ===== STATE =====
@@ -332,6 +341,13 @@
     byId('stockModalCancel').addEventListener('click', closeStockModal);
     byId('stockModalSave').addEventListener('click', saveStock);
     byId('stockFilterKategori').addEventListener('change', renderStock);
+
+    // Shopping
+    byId('addShoppingBtn').addEventListener('click', addShoppingItem);
+    byId('shoppingInput').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') addShoppingItem();
+    });
+    byId('resetShoppingBtn').addEventListener('click', resetShopping);
   }
 
   function byId(id) {
@@ -818,6 +834,123 @@
     setText('stockFooter', 'Total ' + items.length + ' item stock');
   }
 
+  // --- SHOPPING LIST ---
+  function addShoppingItem() {
+    const input = byId('shoppingInput');
+    const catatanInput = byId('shoppingCatatan');
+    const name = input.value.trim();
+    if (!name) return;
+
+    try {
+      AppData.addShoppingItem({ name, catatan: catatanInput.value.trim() });
+    } catch(e) {
+      alert('Gagal menambah: ' + e.message);
+      return;
+    }
+
+    input.value = '';
+    catatanInput.value = '';
+    input.focus();
+    renderAll();
+  }
+
+  function toggleShoppingItem(id, checked) {
+    try {
+      AppData.updateShoppingItem(id, { checked: !checked });
+    } catch(e) {}
+    renderAll();
+  }
+
+  function deleteShoppingItem(id) {
+    try {
+      AppData.deleteShoppingItem(id);
+    } catch(e) {}
+    renderAll();
+  }
+
+  function resetShopping() {
+    const items = AppData.getShoppingItems();
+    if (items.length === 0) return;
+    const checkedCount = items.filter(i => i.checked).length;
+    if (!confirm('Reset daftar belanja?\n' + (checkedCount > 0 ? checkedCount + ' item sudah dibeli akan dihapus.\n' : '') + (items.length - checkedCount) + ' item belum dibeli juga akan dihapus.')) return;
+    try {
+      AppData.resetShoppingList();
+    } catch(e) {
+      alert('Gagal reset: ' + e.message);
+      return;
+    }
+    renderAll();
+  }
+
+  function renderShopping() {
+    let items = [];
+    try { items = AppData.getShoppingItems(); } catch(e) {}
+
+    const total = items.length;
+    const checked = items.filter(i => i.checked).length;
+    const unchecked = total - checked;
+
+    // Stats
+    const stats = byId('shoppingStats');
+    if (stats) {
+      stats.innerHTML =
+        '<div class="stock-stat"><div class="stock-stat-num">' + total + '</div><div class="stock-stat-label">Total Item</div></div>' +
+        '<div class="stock-stat"><div class="stock-stat-num" style="color:var(--positive)">' + checked + '</div><div class="stock-stat-label">Sudah Dibeli</div></div>' +
+        '<div class="stock-stat"><div class="stock-stat-num" style="color:var(--warning)">' + unchecked + '</div><div class="stock-stat-label">Belum Dibeli</div></div>';
+    }
+
+    // List
+    const list = byId('shoppingList');
+    if (!list) return;
+    list.innerHTML = '';
+
+    if (items.length === 0) {
+      list.innerHTML = '<div class="shopping-empty">Belum ada item. Ketik di atas untuk menambah.</div>';
+      setText('shoppingFooter', 'Daftar kosong');
+      return;
+    }
+
+    // Sort: unchecked first, then checked
+    items.sort((a, b) => {
+      if (a.checked !== b.checked) return a.checked ? 1 : -1;
+      return 0;
+    });
+
+    items.forEach(item => {
+      const div = document.createElement('div');
+      div.className = 'shopping-item' + (item.checked ? ' shopping-checked' : '');
+      div.innerHTML =
+        '<label class="shopping-checkbox-wrap">' +
+          '<input type="checkbox" class="shopping-checkbox" data-id="' + item.id + '"' + (item.checked ? ' checked' : '') + '>' +
+          '<span class="shopping-checkmark"></span>' +
+        '</label>' +
+        '<div class="shopping-item-info">' +
+          '<span class="shopping-item-name">' + item.name + '</span>' +
+          (item.catatan ? '<span class="shopping-item-note">' + item.catatan + '</span>' : '') +
+        '</div>' +
+        '<button class="btn-icon btn-delete shopping-delete" data-id="' + item.id + '"><i class="fas fa-times"></i></button>';
+      list.appendChild(div);
+    });
+
+    // Attach listeners
+    list.querySelectorAll('.shopping-checkbox').forEach(cb => {
+      cb.addEventListener('change', (e) => {
+        const id = parseInt(cb.dataset.id);
+        const item = items.find(i => i.id === id);
+        if (item) toggleShoppingItem(id, item.checked);
+      });
+    });
+
+    list.querySelectorAll('.shopping-delete').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        deleteShoppingItem(parseInt(btn.dataset.id));
+      });
+    });
+
+    setText('shoppingFooter', checked + '/' + total + ' sudah dibeli');
+  }
+
   // ===== RENDER =====
   function renderAll() {
     try { AppData.updateFundsFromTransactions(); } catch(e) { console.warn('updateFunds:', e); }
@@ -828,6 +961,7 @@
     try { renderFunds(); } catch(e) { console.warn('funds:', e); }
     try { renderGuide(); } catch(e) { console.warn('guide:', e); }
     try { renderStock(); } catch(e) { console.warn('stock:', e); }
+    try { renderShopping(); } catch(e) { console.warn('shopping:', e); }
   }
 
   // --- DASHBOARD ---
