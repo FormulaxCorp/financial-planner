@@ -670,14 +670,14 @@
       const pct = budget > 0 ? Math.round((real / budget) * 100) : (real > 0 ? 100 : 0);
       let status, cls;
       if (budget === 0 && real > 0) { status = 'NO BUDGET'; cls = 'status-over'; }
-      else if (pct >= 100) { status = 'OVER'; cls = 'status-over'; }
+      else if (pct > 100) { status = 'OVER'; cls = 'status-over'; }
       else if (pct >= 80) { status = 'WARNING'; cls = 'status-warning'; }
       else { status = 'OK'; cls = 'status-aman'; }
 
-      const barColor = pct >= 100 ? 'var(--negative)' : (pct >= 80 ? 'var(--warning)' : 'var(--positive)');
+      const barColor = pct > 100 ? 'var(--negative)' : (pct >= 80 ? 'var(--warning)' : 'var(--positive)');
       const barWidth = Math.min(pct, 100);
 
-      body.innerHTML += '<tr class="' + (pct >= 100 ? 'row-over' : pct >= 80 ? 'row-warning' : '') + '"><td>' + cat + '</td><td>' + AppData.formatRp(budget) + '</td><td>' + AppData.formatRp(real) + '</td><td>' + AppData.formatRp(Math.abs(sisa)) + (sisa < 0 ? ' (lebih)' : '') + '</td><td><div class="progress-mini"><div class="progress-bar-mini" style="width:' + barWidth + '%;background:' + barColor + '"></div></div><span class="pct-badge ' + cls + '">' + pct + '%</span></td><td class="' + cls + '">' + status + '</td></tr>';
+      body.innerHTML += '<tr class="' + (pct > 100 ? 'row-over' : pct >= 80 ? 'row-warning' : '') + '"><td>' + cat + '</td><td>' + AppData.formatRp(budget) + '</td><td>' + AppData.formatRp(real) + '</td><td>' + AppData.formatRp(Math.abs(sisa)) + (sisa < 0 ? ' (lebih)' : '') + '</td><td><div class="progress-mini"><div class="progress-bar-mini" style="width:' + barWidth + '%;background:' + barColor + '"></div></div><span class="pct-badge ' + cls + '">' + pct + '%</span></td><td class="' + cls + '">' + status + '</td></tr>';
     });
   }
 
@@ -700,7 +700,7 @@
         overBudget.push({ cat, budget, real, pct: 100, over: real });
       } else if (budget > 0) {
         const pct = Math.round((real / budget) * 100);
-        if (pct >= 100) {
+        if (pct > 100) {
           overBudget.push({ cat, budget, real, pct, over: real - budget });
         } else if (pct >= 80) {
           warning.push({ cat, budget, real, pct, sisa: budget - real });
@@ -821,10 +821,10 @@
         try { prio = AppData.getPrioritas(cat); } catch(e) {}
         const real = expenseByCat[cat] || 0;
         const pct = budget > 0 ? Math.round((real / budget) * 100) : (real > 0 ? 100 : 0);
-        const barColor = pct >= 100 ? 'var(--negative)' : (pct >= 80 ? 'var(--warning)' : 'var(--positive)');
+        const barColor = pct > 100 ? 'var(--negative)' : (pct >= 80 ? 'var(--warning)' : 'var(--positive)');
         const barWidth = Math.min(pct, 100);
-        const rowCls = pct >= 100 ? 'row-over' : (pct >= 80 ? 'row-warning' : '');
-        const statusCls = pct >= 100 ? 'status-over' : (pct >= 80 ? 'status-warning' : 'status-aman');
+        const rowCls = pct > 100 ? 'row-over' : (pct >= 80 ? 'row-warning' : '');
+        const statusCls = pct > 100 ? 'status-over' : (pct >= 80 ? 'status-warning' : 'status-aman');
         expenseBody.innerHTML += '<tr class="' + rowCls + '"><td>' + cat + '</td><td class="editable-cell" contenteditable="true" data-type="expense" data-cat="' + cat + '">' + budget.toFixed(2) + '</td><td>' + pic + '</td><td><span class="' + (prio === 'Wajib' ? 'prio-wajib' : 'prio-boleh') + '">' + prio + '</span></td><td><div class="progress-mini"><div class="progress-bar-mini" style="width:' + barWidth + '%;background:' + barColor + '"></div></div><span class="pct-badge ' + statusCls + '">' + pct + '%</span></td></tr>';
       });
     }
@@ -897,13 +897,13 @@
       const pct = budget > 0 ? Math.round((real / budget) * 100) : (real > 0 ? 100 : 0);
       let status, cls;
       if (budget === 0 && real > 0) { status = 'NO BUDGET'; cls = 'status-over'; }
-      else if (pct >= 100) { status = 'OVER'; cls = 'status-over'; }
+      else if (pct > 100) { status = 'OVER'; cls = 'status-over'; }
       else if (pct >= 80) { status = 'WARNING'; cls = 'status-warning'; }
       else if (budget > 0) { status = 'OK'; cls = 'status-aman'; }
       else { status = '—'; cls = ''; }
-      const barColor = pct >= 100 ? 'var(--negative)' : (pct >= 80 ? 'var(--warning)' : 'var(--positive)');
+      const barColor = pct > 100 ? 'var(--negative)' : (pct >= 80 ? 'var(--warning)' : 'var(--positive)');
       const barWidth = Math.min(pct, 100);
-      const rowCls = pct >= 100 ? 'row-over' : (pct >= 80 ? 'row-warning' : '');
+      const rowCls = pct > 100 ? 'row-over' : (pct >= 80 ? 'row-warning' : '');
       body.innerHTML += '<tr class="' + rowCls + '"><td>' + cat + '</td><td>' + AppData.formatRp(budget) + '</td><td>' + AppData.formatRp(real) + '</td><td>' + AppData.formatRp(Math.abs(selisih)) + (selisih < 0 ? ' (lebih)' : '') + '</td><td><div class="progress-mini"><div class="progress-bar-mini" style="width:' + barWidth + '%;background:' + barColor + '"></div></div><span class="pct-badge ' + cls + '">' + pct + '%</span></td><td class="' + cls + '">' + status + '</td></tr>';
     });
   }
