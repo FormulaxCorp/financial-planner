@@ -5,7 +5,84 @@
 (function() {
   'use strict';
 
-  // ===== DOM REFS =====
+  // ===== AUTH (Simple Password) =====
+    function setupAuth() {
+      const loginScreen = document.getElementById('login-screen');
+      const loginBtn = document.getElementById('loginBtn');
+      const loginPassword = document.getElementById('loginPassword');
+      const loginError = document.getElementById('loginError');
+
+      // Check if already authenticated
+      if (SimpleAuth.isLoggedIn()) {
+        loginScreen.classList.add('hidden');
+        // Load data
+        loadAppData();
+      } else {
+        loginScreen.classList.remove('hidden');
+      }
+
+      // Login button click
+      loginBtn.addEventListener('click', async () => {
+        const password = loginPassword.value;
+
+        if (!password) {
+          loginError.textContent = 'Masukkan password!';
+          return;
+        }
+
+        loginBtn.disabled = true;
+        loginBtn.textContent = 'Loading...';
+        loginError.textContent = '';
+
+        const result = await SimpleAuth.login(password);
+      
+        if (result.success) {
+          loginScreen.classList.add('hidden');
+          // Load data after successful login
+          loadAppData();
+        } else {
+          loginError.textContent = result.message;
+        }
+
+        loginBtn.disabled = false;
+        loginBtn.textContent = 'Masuk';
+      });
+
+      // Enter key to submit
+      loginPassword.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') loginBtn.click();
+      });
+
+      // Logout button
+      const logoutBtn = document.getElementById('logoutBtn');
+      if (logoutBtn) {
+        logoutBtn.addEventListener('click', () => {
+          SimpleAuth.logout();
+          loginScreen.classList.remove('hidden');
+          loginPassword.value = '';
+          loginError.textContent = '';
+        });
+      }
+    }
+
+    // Load app data after auth
+    async function loadAppData() {
+      try {
+        if (typeof SupabaseData !== 'undefined') {
+          await SupabaseData.loadAllData();
+        }
+        if (typeof renderAll === 'function') {
+          renderAll();
+        }
+      } catch (err) {
+        console.error('Error loading data:', err);
+      }
+    }
+
+    // Run auth setup
+    setupAuth();
+
+    // ===== DOM REFS =====
   const $ = (sel) => document.querySelector(sel);
   const $$ = (sel) => document.querySelectorAll(sel);
 
@@ -174,6 +251,14 @@
       renderAll();
       byId('refreshBtn').classList.add('fa-spin');
       setTimeout(() => byId('refreshBtn').classList.remove('fa-spin'), 600);
+    });
+
+    // Logout button
+    byId('logoutBtn').addEventListener('click', async () => {
+      if (confirm('Yakin mau logout?')) {
+        SimpleAuth.logout();
+        window.location.reload();
+      }
     });
 
     byId('transSearch').addEventListener('input', renderTransactions);
@@ -582,10 +667,17 @@
         const budget = AppData.getBudgetIncome();
         budget[cat] = val;
         AppData.setBudgetIncome(budget);
-      } else {
+      } else if (type === 'expense') {
         const budget = AppData.getBudgetExpense();
         budget[cat] = val;
         AppData.setBudgetExpense(budget);
+      } else if (type === 'startbalance') {
+        const funds = AppData.getFunds();
+        const fund = funds.find(f => f.id === cat);
+        if (fund) {
+          fund.startBalance = val;
+          AppData.updateFunds(funds);
+        }
       }
     } catch(e) { return; }
 
@@ -639,13 +731,31 @@
     funds.forEach(f => {
       const mutasi = (f.balance||0) - (f.startBalance||0);
       const mc = mutasi >= 0 ? 'mutasi-plus' : 'mutasi-minus';
-      body.innerHTML += '<tr><td><strong>' + f.name + '</strong></td><td class="text-right mono">' + AppData.formatRp(f.balance||0) + '</td><td class="text-right mono">' + AppData.formatRp(f.startBalance||0) + '</td><td class="text-right mono ' + mc + '">' + (mutasi >= 0 ? '+' : '') + AppData.formatRp(mutasi) + '</td><td>' + (f.target||'-') + '</td><td class="text-muted">' + (f.desc||'') + '</td></tr>';
+      const row = document.createElement('tr');
+      row.innerHTML = '<td><strong>' + f.name + '</strong></td>' +
+        '<td class="text-right mono">' + AppData.formatRp(f.balance||0) + '</td>' +
+        '<td class="editable-cell text-right mono" contenteditable="true" data-type="startbalance" data-cat="' + f.id + '">' + AppData.formatRp(f.startBalance||0) + '</td>' +
+        '<td class="text-right mono ' + mc + '">' + (mutasi >= 0 ? '+' : '') + AppData.formatRp(mutasi) + '</td>' +
+        '<td>' + (f.target||'-') + '</td>' +
+        '<td class="text-muted">' + (f.desc||'') + '</td>';
+      body.appendChild(row);
     });
 
     const totalBal = funds.reduce((s, f) => s + (f.balance||0), 0);
     const totalStart = funds.reduce((s, f) => s + (f.startBalance||0), 0);
     const totalMutasi = totalBal - totalStart;
-    body.innerHTML += '<tr style="font-weight:700;background:var(--bg-elevated)"><td>TOTAL KAS</td><td class="text-right mono">' + AppData.formatRp(totalBal) + '</td><td class="text-right mono">' + AppData.formatRp(totalStart) + '</td><td class="text-right mono ' + (totalMutasi >= 0 ? 'mutasi-plus' : 'mutasi-minus') + '">' + (totalMutasi >= 0 ? '+' : '') + AppData.formatRp(totalMutasi) + '</td><td></td><td></td></tr>';
+    const totalRow = document.createElement('tr');
+    totalRow.style.cssText = 'font-weight:700;background:var(--bg-elevated)';
+    totalRow.innerHTML = '<td>TOTAL KAS</td><td class="text-right mono">' + AppData.formatRp(totalBal) + '</td><td class="text-right mono">' + AppData.formatRp(totalStart) + '</td><td class="text-right mono ' + (totalMutasi >= 0 ? 'mutasi-plus' : 'mutasi-minus') + '">' + (totalMutasi >= 0 ? '+' : '') + AppData.formatRp(totalMutasi) + '</td><td></td><td></td>';
+    body.appendChild(totalRow);
+
+    // Editable listeners for saldo awal
+    body.querySelectorAll('.editable-cell').forEach(cell => {
+      cell.addEventListener('blur', onBudgetEdit);
+      cell.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') { e.preventDefault(); cell.blur(); }
+      });
+    });
   }
 
   // --- GUIDE ---
@@ -689,3 +799,4 @@
     document.addEventListener('DOMContentLoaded', init);
   }
 })();
+// v2.1 - editable saldo awal 1782912238

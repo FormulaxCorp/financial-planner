@@ -17,8 +17,32 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  <!-- Supabase SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
+  <!-- LOGIN SCREEN -->
+  <div id="login-screen" class="login-screen">
+    <div class="login-card">
+      <div class="login-logo">
+        <svg width="56" height="56" viewBox="0 0 100 100">
+          <polygon points="50,10 90,50 50,90 10,50" fill="none" stroke="#e0e0e0" stroke-width="2"/>
+          <polygon points="50,24 76,50 50,76 24,50" fill="#e0e0e0"/>
+          <text x="50" y="54" text-anchor="middle" font-family="'Inter',sans-serif" font-size="18" font-weight="bold" fill="#161616">FP</text>
+        </svg>
+      </div>
+      <h2>Our Financial Planner</h2>
+      <p class="login-sub">by Vina, Henry & Hiro</p>
+      <div class="login-form" id="loginForm">
+        <div class="login-input-group">
+          <input type="password" id="loginPassword" placeholder="Masukkan password" autocomplete="current-password">
+        </div>
+        <button id="loginBtn" class="login-submit-btn">Masuk</button>
+      </div>
+      <p class="login-error" id="loginError"></p>
+    </div>
+  </div>
+
   <!-- SPLASH -->
   <div id="splash-screen" class="splash-screen">
     <div class="splash-content">
@@ -65,7 +89,7 @@
         <span class="sidebar-title">Our Financial Planner</span>
         <button class="sidebar-close" id="sidebarClose"><i class="fas fa-times"></i></button>
       </div>
-      <div class="sidebar-user">by Vina, Henry & Hiro</div>
+      <div class="sidebar-user">Keluarga Vina & Henry</div>
       <ul class="sidebar-menu">
         <li><a href="#" class="active" data-page="dashboard"><i class="fas fa-th-large"></i> Dashboard</a></li>
         <li><a href="#" data-page="funds"><i class="fas fa-wallet"></i> Pos Uang</a></li>
@@ -75,7 +99,8 @@
         <li><a href="#" data-page="guide"><i class="fas fa-book"></i> Panduan</a></li>
       </ul>
       <div class="sidebar-footer">
-        <small>v1.1 — Data lokal di browser</small>
+        <button id="logoutBtn" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+        <small>v2.0 — Private access</small>
       </div>
     </nav>
 
@@ -299,6 +324,9 @@
     </div>
   </div>
 
+  <script src="js/supabase-init.js"></script>
+  <script src="js/simple-auth.js"></script>
+  <script src="js/supabase-data.js"></script>
   <script src="js/data.js"></script>
   <script src="js/chart.js"></script>
   <script src="js/app.js"></script>

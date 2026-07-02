@@ -1,9 +1,10 @@
-const CACHE_NAME = 'fin-planner-v1';
+const CACHE_NAME = 'fin-planner-v2';
 const ASSETS = [
   '.',
   'index.html',
   'manifest.json',
   'css/style.css',
+  'js/simple-auth.js',
   'js/app.js',
   'js/data.js',
   'js/chart.js'
@@ -29,27 +30,38 @@ self.addEventListener('activate', e => {
   );
 });
 
-// Fetch: cache-first for assets, network-first for CDN
+// Fetch: network-first for all requests (to ensure auth works)
 self.addEventListener('fetch', e => {
   const url = new URL(e.request.url);
   
-  // For CDN (chart.js, fontawesome) -> network first
-  if (url.hostname !== '127.0.0.1' && url.hostname !== 'localhost' && url.hostname !== '') {
+  // Skip non-GET requests
+  if (e.request.method !== 'GET') return;
+  
+  // For CDN resources (chart.js, fontawesome, fonts) -> network first
+  if (url.hostname.includes('cdn.') || 
+      url.hostname.includes('fonts.') || 
+      url.hostname.includes('gstatic.') ||
+      url.hostname.includes('cdnjs.')) {
     e.respondWith(
       fetch(e.request).catch(() => caches.match(e.request))
     );
     return;
   }
   
-  // For our assets -> cache first
+  // For our assets -> network first (to get fresh auth)
   e.respondWith(
-    caches.match(e.request).then(cached => {
-      return cached || fetch(e.request).then(response => {
-        return caches.open(CACHE_NAME).then(cache => {
-          cache.put(e.request, response.clone());
-          return response;
+    fetch(e.request).then(response => {
+      // Cache successful responses
+      if (response.ok) {
+        const clone = response.clone();
+        caches.open(CACHE_NAME).then(cache => {
+          cache.put(e.request, clone);
         });
-      });
+      }
+      return response;
+    }).catch(() => {
+      // Fallback to cache if offline
+      return caches.match(e.request);
     })
   );
 });
