@@ -406,10 +406,16 @@
     selIds.forEach(id => {
       const el = byId(id);
       if (!el) return;
+      const currentVal = el.value;
       el.innerHTML = '';
       funds.forEach(f => {
-        el.innerHTML += '<option value="' + f.id + '">' + f.id + '</option>';
+        const label = f.name + ' (' + AppData.formatRp(f.balance || 0) + ')';
+        el.innerHTML += '<option value="' + f.id + '">' + label + '</option>';
       });
+      // Restore previous selection if still valid
+      if (currentVal && funds.some(f => f.id === currentVal)) {
+        el.value = currentVal;
+      }
     });
   }
 
@@ -417,6 +423,9 @@
   function openModal(trans) {
     const isEditing = !!trans;
     byId('modalTitle').textContent = isEditing ? 'Edit Transaksi' : 'Tambah Transaksi';
+
+    // Always refresh pos options first
+    refreshFormPosOptions();
 
     if (isEditing) {
       editId = trans.id;
