@@ -49,7 +49,7 @@ body {
   overflow-x: hidden;
 }
 
-.mono { font-family: 'SF Mono', 'Consolas', monospace; letter-spacing: 0.02em; }
+.mono { font-family: 'DM Mono', 'SF Mono', 'Consolas', monospace; letter-spacing: 0.01em; white-space: nowrap; }
 
 /* ===== SCROLLBAR ===== */
 ::-webkit-scrollbar { width: 4px; }
@@ -150,6 +150,7 @@ body {
 }
 .sidebar-menu {
   list-style: none; padding: 12px 8px; flex: 1;
+  overflow-y: auto;
 }
 .sidebar-menu li a {
   display: flex; align-items: center; gap: 14px;
@@ -232,7 +233,7 @@ body {
 .card:active { transform: scale(0.97); }
 .card-icon { font-size: 18px; color: var(--text-muted); margin-bottom: 8px; }
 .card-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 4px; }
-.card-value { font-size: 18px; font-weight: 700; }
+.card-value { font-size: 17px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .card-total .card-value { color: var(--text-primary); }
 .card-income .card-value { color: var(--positive); }
 .card-expense .card-value { color: var(--negative); }
@@ -275,6 +276,7 @@ body {
   padding: 10px 12px;
   border-bottom: 1px solid var(--border-color);
   vertical-align: middle;
+  white-space: nowrap;
 }
 .data-table tbody tr { transition: background 0.15s; }
 .data-table tbody tr:hover { background: var(--bg-hover); }
@@ -335,7 +337,7 @@ body {
 }
 .fund-name { font-weight: 600; font-size: 13px; }
 .fund-desc { font-size: 11px; color: var(--text-muted); margin: 2px 0 6px; }
-.fund-balance { font-size: 15px; font-weight: 700; font-family: 'SF Mono', 'Consolas', monospace; }
+.fund-balance { font-size: 15px; font-weight: 700; font-family: 'DM Mono', 'SF Mono', 'Consolas', monospace; white-space: nowrap; }
 
 /* ===== REPORT ===== */
 .report-summary {
@@ -349,7 +351,7 @@ body {
   border: 1px solid var(--border-light);
 }
 .report-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); }
-.report-value { font-size: 16px; font-weight: 700; font-family: 'SF Mono', 'Consolas', monospace; margin-top: 4px; }
+.report-value { font-size: 16px; font-weight: 700; font-family: 'DM Mono', 'SF Mono', 'Consolas', monospace; margin-top: 4px; white-space: nowrap; }
 .rp-income .report-value { color: var(--positive); }
 .rp-expense .report-value { color: var(--negative); }
 .rp-transfer .report-value { color: var(--info); }
@@ -557,7 +559,7 @@ body {
   font-weight: 600;
   padding: 2px 6px;
   border-radius: 4px;
-  font-family: 'SF Mono', 'JetBrains Mono', 'Fira Code', monospace;
+  font-family: 'DM Mono', 'SF Mono', 'JetBrains Mono', monospace;
 }
 .status-warning {
   color: var(--warning);
@@ -594,7 +596,7 @@ body {
 .stock-stat-num {
   font-size: 28px;
   font-weight: 700;
-  font-family: 'SF Mono', 'JetBrains Mono', 'Fira Code', monospace;
+  font-family: 'DM Mono', 'SF Mono', 'JetBrains Mono', 'Fira Code', monospace;
 }
 .stock-stat-label {
   font-size: 12px;
@@ -763,7 +765,7 @@ body {
   font-size: 12px;
   color: var(--text-muted);
   margin-top: 4px;
-  font-family: 'SF Mono', 'JetBrains Mono', 'Fira Code', monospace;
+  font-family: 'DM Mono', 'SF Mono', monospace;
 }
 
 /* ===== MODAL ===== */
@@ -1021,6 +1023,10 @@ body {
     transform: translateY(20px);
   }
   .modal.open .modal-content { transform: translateY(0); }
+
+  /* Sidebar: scrollable in landscape */
+  .sidebar { overflow: hidden; }
+  .sidebar-menu { overflow-y: auto; -webkit-overflow-scrolling: touch; }
 }
 /* deploy update */
 /* DEPLOY 1782912320 */
