@@ -1,4 +1,4 @@
-const CACHE_NAME = 'fin-planner-v3';
+const CACHE_NAME = 'fin-planner-v4';
 const ASSETS = [
   '.',
   'index.html',
