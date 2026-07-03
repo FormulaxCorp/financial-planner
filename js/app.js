@@ -5,28 +5,31 @@
 (function() {
   'use strict';
 
-  // ===== AUTH (Simple Password) =====
+  // ===== AUTH (Supabase Auth) =====
     function setupAuth() {
       const loginScreen = document.getElementById('login-screen');
       const loginBtn = document.getElementById('loginBtn');
+      const loginEmail = document.getElementById('loginEmail');
       const loginPassword = document.getElementById('loginPassword');
       const loginError = document.getElementById('loginError');
 
-      // Check if already authenticated
-      if (SimpleAuth.isLoggedIn()) {
-        loginScreen.classList.add('hidden');
-        // Load data
-        loadAppData();
-      } else {
-        loginScreen.classList.remove('hidden');
-      }
+      // Initialize auth and check session
+      Auth.init().then(function(user) {
+        if (user) {
+          loginScreen.classList.add('hidden');
+          loadAppData();
+        } else {
+          loginScreen.classList.remove('hidden');
+        }
+      });
 
       // Login button click
       loginBtn.addEventListener('click', async () => {
+        const email = loginEmail.value;
         const password = loginPassword.value;
 
-        if (!password) {
-          loginError.textContent = 'Masukkan password!';
+        if (!email || !password) {
+          loginError.textContent = 'Email dan password harus diisi!';
           return;
         }
 
@@ -34,11 +37,10 @@
         loginBtn.textContent = 'Loading...';
         loginError.textContent = '';
 
-        const result = await SimpleAuth.login(password);
+        const result = await Auth.login(email, password);
       
         if (result.success) {
           loginScreen.classList.add('hidden');
-          // Load data after successful login
           loadAppData();
         } else {
           loginError.textContent = result.message;
@@ -56,9 +58,10 @@
       // Logout button
       const logoutBtn = document.getElementById('logoutBtn');
       if (logoutBtn) {
-        logoutBtn.addEventListener('click', () => {
-          SimpleAuth.logout();
+        logoutBtn.addEventListener('click', async () => {
+          await Auth.logout();
           loginScreen.classList.remove('hidden');
+          loginEmail.value = '';
           loginPassword.value = '';
           loginError.textContent = '';
         });
@@ -295,7 +298,7 @@
     // Logout button
     byId('logoutBtn').addEventListener('click', async () => {
       if (confirm('Yakin mau logout?')) {
-        SimpleAuth.logout();
+        await Auth.logout();
         window.location.reload();
       }
     });

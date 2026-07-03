@@ -22,9 +22,16 @@ const SupabaseData = (() => {
   // Load all data from Supabase
   async function loadAllData() {
     try {
+      const userId = Auth.getUserId();
+      if (!userId) {
+        console.error('Not logged in');
+        return;
+      }
+      
       const { data, error } = await supabase
         .from('app_data')
-        .select('id, data');
+        .select('id, data')
+        .eq('user_id', userId);
 
       if (error) {
         console.error('Error loading data:', error);
@@ -53,12 +60,6 @@ const SupabaseData = (() => {
           case 'prioritas':
             cache.prioritasData = row.data.data || {};
             break;
-          case 'stock':
-            cache.stockItems = row.data.items || [];
-            break;
-          case 'shopping':
-            cache.shoppingItems = row.data.items || [];
-            break;
         }
       });
     } catch (error) {
@@ -69,9 +70,13 @@ const SupabaseData = (() => {
   // Save single document
   async function saveDoc(docId, data) {
     try {
+      const userId = Auth.getUserId();
+      const record = { id: docId, data, updated_at: new Date().toISOString() };
+      if (userId) record.user_id = userId;
+      
       const { error } = await supabase
         .from('app_data')
-        .upsert({ id: docId, data, updated_at: new Date().toISOString() });
+        .upsert(record);
 
       if (error) {
         console.error('Error saving:', error);
