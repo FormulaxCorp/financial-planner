@@ -1,13 +1,14 @@
-const CACHE_NAME = 'fin-planner-v4';
+const CACHE_NAME = 'fin-planner-v5';
 const ASSETS = [
   '.',
   'index.html',
   'manifest.json',
   'css/style.css',
-  'js/simple-auth.js',
   'js/app.js',
   'js/data.js',
-  'js/chart.js'
+  'js/chart.js',
+  'js/supabase-data.js',
+  'js/supabase-init.js'
 ];
 
 // Install: cache assets
@@ -19,39 +20,41 @@ self.addEventListener('install', e => {
   );
 });
 
-// Activate: clean old caches
+// Activate: clean ALL old caches
 self.addEventListener('activate', e => {
   e.waitUntil(
     caches.keys().then(names => {
       return Promise.all(
-        names.filter(n => n !== CACHE_NAME).map(n => caches.delete(n))
+        names.filter(n => n !== CACHE_NAME).map(n => {
+          console.log('[SW] Deleting old cache:', n);
+          return caches.delete(n);
+        })
       );
     }).then(() => self.clients.claim())
   );
 });
 
-// Fetch: network-first for all requests (to ensure auth works)
+// Fetch: network-first for HTML/CSS/JS, cache-first for others
 self.addEventListener('fetch', e => {
   const url = new URL(e.request.url);
   
   // Skip non-GET requests
   if (e.request.method !== 'GET') return;
   
-  // For CDN resources (chart.js, fontawesome, fonts) -> network first
-  if (url.hostname.includes('cdn.') || 
-      url.hostname.includes('fonts.') || 
+  // For CDN resources (fonts, CDNs) -> network first
+  if (url.hostname.includes('fonts.') || 
       url.hostname.includes('gstatic.') ||
-      url.hostname.includes('cdnjs.')) {
+      url.hostname.includes('cdnjs.') ||
+      url.hostname.includes('cdn.jsdelivr.')) {
     e.respondWith(
       fetch(e.request).catch(() => caches.match(e.request))
     );
     return;
   }
   
-  // For our assets -> network first (to get fresh auth)
+  // For our assets (HTML, CSS, JS) -> ALWAYS network first
   e.respondWith(
     fetch(e.request).then(response => {
-      // Cache successful responses
       if (response.ok) {
         const clone = response.clone();
         caches.open(CACHE_NAME).then(cache => {
@@ -60,7 +63,6 @@ self.addEventListener('fetch', e => {
       }
       return response;
     }).catch(() => {
-      // Fallback to cache if offline
       return caches.match(e.request);
     })
   );
