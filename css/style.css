@@ -49,7 +49,7 @@ body {
   overflow-x: hidden;
 }
 
-.mono { font-family: 'DM Mono', 'SF Mono', 'Consolas', monospace; letter-spacing: 0.01em; white-space: nowrap; }
+.mono { font-family: 'JetBrains Mono', 'SF Mono', 'Consolas', monospace; letter-spacing: 0.01em; white-space: nowrap; }
 
 /* ===== SCROLLBAR ===== */
 ::-webkit-scrollbar { width: 4px; }
@@ -340,7 +340,7 @@ body {
 }
 .fund-name { font-weight: 600; font-size: 13px; }
 .fund-desc { font-size: 11px; color: var(--text-muted); margin: 2px 0 6px; }
-.fund-balance { font-size: 15px; font-weight: 700; font-family: 'DM Mono', 'SF Mono', 'Consolas', monospace; white-space: nowrap; }
+.fund-balance { font-size: 15px; font-weight: 700; font-family: 'JetBrains Mono', 'SF Mono', 'Consolas', monospace; white-space: nowrap; }
 
 /* ===== REPORT ===== */
 .report-summary {
@@ -354,7 +354,7 @@ body {
   border: 1px solid var(--border-light);
 }
 .report-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); }
-.report-value { font-size: 16px; font-weight: 700; font-family: 'DM Mono', 'SF Mono', 'Consolas', monospace; margin-top: 4px; white-space: nowrap; }
+.report-value { font-size: 16px; font-weight: 700; font-family: 'JetBrains Mono', 'SF Mono', 'Consolas', monospace; margin-top: 4px; white-space: nowrap; }
 .rp-income .report-value { color: var(--positive); }
 .rp-expense .report-value { color: var(--negative); }
 .rp-transfer .report-value { color: var(--info); }
@@ -562,7 +562,7 @@ body {
   font-weight: 600;
   padding: 2px 6px;
   border-radius: 4px;
-  font-family: 'DM Mono', 'SF Mono', 'JetBrains Mono', monospace;
+  font-family: 'JetBrains Mono', 'SF Mono', monospace;
 }
 .status-warning {
   color: var(--warning);
@@ -599,7 +599,7 @@ body {
 .stock-stat-num {
   font-size: 28px;
   font-weight: 700;
-  font-family: 'DM Mono', 'SF Mono', 'JetBrains Mono', 'Fira Code', monospace;
+  font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
 }
 .stock-stat-label {
   font-size: 12px;
@@ -768,7 +768,7 @@ body {
   font-size: 12px;
   color: var(--text-muted);
   margin-top: 4px;
-  font-family: 'DM Mono', 'SF Mono', monospace;
+  font-family: 'JetBrains Mono', 'SF Mono', monospace;
 }
 
 /* ===== MODAL ===== */
