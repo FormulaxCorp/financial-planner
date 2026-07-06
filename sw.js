@@ -1,14 +1,13 @@
-const CACHE_NAME = 'fin-planner-v5';
+const CACHE_NAME = 'fin-planner-v6';
 const ASSETS = [
   '.',
   'index.html',
   'manifest.json',
-  'css/style.css',
+  'css/app.css',
+  'js/simple-auth.js',
   'js/app.js',
   'js/data.js',
-  'js/chart.js',
-  'js/supabase-data.js',
-  'js/supabase-init.js'
+  'js/chart.js'
 ];
 
 // Install: cache assets
