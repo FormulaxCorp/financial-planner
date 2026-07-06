@@ -1020,7 +1020,7 @@
       const barColor = pct > 100 ? 'var(--negative)' : ((pct >= 80 && pct < 100) ? 'var(--warning)' : 'var(--positive)');
       const barWidth = Math.min(pct, 100);
 
-      body.innerHTML += '<tr class="' + (pct > 100 ? 'row-over' : (pct >= 80 && pct < 100) ? 'row-warning' : '') + '"><td>' + cat + '</td><td>' + AppData.formatRp(budget) + '</td><td>' + AppData.formatRp(real) + '</td><td>' + AppData.formatRp(Math.abs(sisa)) + (sisa < 0 ? ' (lebih)' : '') + '</td><td><div class="progress-mini"><div class="progress-bar-mini" style="width:' + barWidth + '%;background:' + barColor + '"></div></div><span class="pct-badge ' + cls + '">' + pct + '%</span></td><td class="' + cls + '">' + status + '</td></tr>';
+      body.innerHTML += '<tr class="' + (pct > 100 ? 'row-over' : (pct >= 80 && pct < 100) ? 'row-warning' : '') + '"><td>' + cat + '</td><td class="text-right mono">' + AppData.formatRp(budget) + '</td><td class="text-right mono">' + AppData.formatRp(real) + '</td><td class="text-right mono">' + AppData.formatRp(Math.abs(sisa)) + (sisa < 0 ? ' (lebih)' : '') + '</td><td><div class="progress-mini"><div class="progress-bar-mini" style="width:' + barWidth + '%;background:' + barColor + '"></div></div><span class="pct-badge ' + cls + '">' + pct + '%</span></td><td class="' + cls + '">' + status + '</td></tr>';
     });
   }
 
@@ -1118,7 +1118,7 @@
         '<td><span class="jenis-badge ' + jClass + '">' + t.jenis + '</span></td>' +
         '<td>' + (t.kategori||'-') + '</td>' +
         '<td>' + (t.keterangan||'-') + '</td>' +
-        '<td class="text-right" style="font-weight:600;white-space:nowrap">' + AppData.formatRp(nominal) + '</td>' +
+        '<td class="text-right mono" style="font-weight:600;white-space:nowrap">' + AppData.formatRp(nominal) + '</td>' +
         '<td>' + posDisplay + '</td>';
       tr.addEventListener('click', (function(t) { return function() { openModal(t); }; })(t));
       body.appendChild(tr);
@@ -1146,9 +1146,9 @@
         const target = budgetIncome[cat] || 0;
         const actual = incomeByCat[cat] || 0;
         totalTarget += target; totalActual += actual;
-        incomeBody.innerHTML += '<tr><td>' + cat + '</td><td class="editable-cell" contenteditable="true" data-type="income" data-cat="' + cat + '">' + target.toFixed(2) + '</td><td>' + AppData.formatRp(actual) + '</td><td>' + AppData.formatRp(target - actual) + '</td><td>' + (target > 0 ? Math.round((actual/target)*100) + '%' : '-') + '</td></tr>';
+        incomeBody.innerHTML += '<tr><td>' + cat + '</td><td class="editable-cell text-right mono" contenteditable="true" data-type="income" data-cat="' + cat + '">' + target.toFixed(2) + '</td><td class="text-right mono">' + AppData.formatRp(actual) + '</td><td class="text-right mono">' + AppData.formatRp(target - actual) + '</td><td>' + (target > 0 ? Math.round((actual/target)*100) + '%' : '-') + '</td></tr>';
       });
-      incomeBody.innerHTML += '<tr style="font-weight:700;background:var(--bg-elevated)"><td>TOTAL</td><td>' + AppData.formatRp(totalTarget) + '</td><td>' + AppData.formatRp(totalActual) + '</td><td>' + AppData.formatRp(totalTarget - totalActual) + '</td><td>' + (totalTarget > 0 ? Math.round((totalActual/totalTarget)*100) + '%' : '-') + '</td></tr>';
+      incomeBody.innerHTML += '<tr style="font-weight:700;background:var(--bg-elevated)"><td>TOTAL</td><td class="text-right mono">' + AppData.formatRp(totalTarget) + '</td><td class="text-right mono">' + AppData.formatRp(totalActual) + '</td><td class="text-right mono">' + AppData.formatRp(totalTarget - totalActual) + '</td><td>' + (totalTarget > 0 ? Math.round((totalActual/totalTarget)*100) + '%' : '-') + '</td></tr>';
     }
 
     // Expense
@@ -1247,7 +1247,7 @@
       const barColor = pct > 100 ? 'var(--negative)' : ((pct >= 80 && pct < 100) ? 'var(--warning)' : 'var(--positive)');
       const barWidth = Math.min(pct, 100);
       const rowCls = pct > 100 ? 'row-over' : ((pct >= 80 && pct < 100) ? 'row-warning' : '');
-      body.innerHTML += '<tr class="' + rowCls + '"><td>' + cat + '</td><td>' + AppData.formatRp(budget) + '</td><td>' + AppData.formatRp(real) + '</td><td>' + AppData.formatRp(Math.abs(selisih)) + (selisih < 0 ? ' (lebih)' : '') + '</td><td><div class="progress-mini"><div class="progress-bar-mini" style="width:' + barWidth + '%;background:' + barColor + '"></div></div><span class="pct-badge ' + cls + '">' + pct + '%</span></td><td class="' + cls + '">' + status + '</td></tr>';
+      body.innerHTML += '<tr class="' + rowCls + '"><td>' + cat + '</td><td class="text-right mono">' + AppData.formatRp(budget) + '</td><td class="text-right mono">' + AppData.formatRp(real) + '</td><td class="text-right mono">' + AppData.formatRp(Math.abs(selisih)) + (selisih < 0 ? ' (lebih)' : '') + '</td><td><div class="progress-mini"><div class="progress-bar-mini" style="width:' + barWidth + '%;background:' + barColor + '"></div></div><span class="pct-badge ' + cls + '">' + pct + '%</span></td><td class="' + cls + '">' + status + '</td></tr>';
     });
   }
 
