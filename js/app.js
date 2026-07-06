@@ -238,7 +238,7 @@
   }
 
   function registerSW() {
-    }
+    // Service worker removed - no longer needed
   }
 
   // ===== NAVIGATION =====
