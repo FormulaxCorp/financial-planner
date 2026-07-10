@@ -237,9 +237,9 @@ body {
 .card-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 4px; }
 .card-value { font-size: 17px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .card-total .card-value { color: var(--text-primary); }
-.card-income .card-value { color: var(--positive); }
-.card-expense .card-value { color: var(--negative); }
-.card-sisa .card-value { color: var(--info); }
+.card-income .card-value { color: var(--text-primary); }
+.card-expense .card-value { color: var(--text-primary); }
+.card-sisa .card-value { color: var(--text-primary); }
 
 /* ===== SECTION CARD ===== */
 .section-card {
@@ -287,8 +287,8 @@ body {
 .text-muted { color: var(--text-muted); }
 
 /* Status badges */
-.status-aman { color: var(--positive); font-weight: 600; }
-.status-over { color: var(--negative); font-weight: 600; }
+.status-aman { color: var(--text-primary); font-weight: 600; }
+.status-over { color: var(--text-primary); font-weight: 600; }
 
 .jenis-badge {
   display: inline-block;
@@ -296,15 +296,15 @@ body {
   border-radius: 4px;
   font-size: 11px; font-weight: 600;
 }
-.jenis-masuk { background: rgba(139,195,74,0.12); color: var(--positive); }
-.jenis-keluar { background: rgba(239,83,80,0.12); color: var(--negative); }
-.jenis-pindah { background: rgba(100,181,246,0.12); color: var(--info); }
+.jenis-masuk { background: rgba(245,239,230,0.08); color: var(--text-primary); }
+.jenis-keluar { background: rgba(245,239,230,0.06); color: var(--text-secondary); }
+.jenis-pindah { background: rgba(245,239,230,0.05); color: var(--text-muted); }
 
-.prio-wajib { color: var(--positive); font-weight: 600; }
+.prio-wajib { color: var(--text-primary); font-weight: 600; }
 .prio-boleh { color: var(--warning); }
 
-.mutasi-plus { color: var(--positive); }
-.mutasi-minus { color: var(--negative); }
+.mutasi-plus { color: var(--text-primary); }
+.mutasi-minus { color: var(--text-secondary); }
 
 /* Editable budget cells */
 .editable-cell {
@@ -354,9 +354,9 @@ body {
 }
 .report-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); }
 .report-value { font-size: 16px; font-weight: 600; font-family: 'Nunito', sans-serif; margin-top: 4px; white-space: nowrap; }
-.rp-income .report-value { color: var(--positive); }
-.rp-expense .report-value { color: var(--negative); }
-.rp-transfer .report-value { color: var(--info); }
+.rp-income .report-value { color: var(--text-primary); }
+.rp-expense .report-value { color: var(--text-primary); }
+.rp-transfer .report-value { color: var(--text-primary); }
 .rp-sisa .report-value { color: var(--text-primary); }
 
 /* ===== FILTER BAR ===== */
