@@ -751,9 +751,9 @@
         else aman++;
       });
       summary.innerHTML =
-        '<div class="stock-stat"><div class="stock-stat-num" style="color:var(--negative)">' + habis + '</div><div class="stock-stat-label">Habis</div></div>' +
-        '<div class="stock-stat"><div class="stock-stat-num" style="color:var(--warning)">' + hampirHabis + '</div><div class="stock-stat-label">Hampir Habis</div></div>' +
-        '<div class="stock-stat"><div class="stock-stat-num" style="color:var(--positive)">' + aman + '</div><div class="stock-stat-label">Aman</div></div>' +
+     '<div class="stock-stat"><div class="stock-stat-num">' + habis + '</div><div class="stock-stat-label">Habis</div></div>' +
+ '<div class="stock-stat"><div class="stock-stat-num">' + hampirHabis + '</div><div class="stock-stat-label">Hampir Habis</div></div>' +
+      '<div class="stock-stat"><div class="stock-stat-num">' + aman + '</div><div class="stock-stat-label">Aman</div></div>' +
         '<div class="stock-stat"><div class="stock-stat-num">' + items.length + '</div><div class="stock-stat-label">Total Item</div></div>';
     }
 
@@ -905,8 +905,8 @@
     if (stats) {
       stats.innerHTML =
         '<div class="stock-stat"><div class="stock-stat-num">' + total + '</div><div class="stock-stat-label">Total Item</div></div>' +
-        '<div class="stock-stat"><div class="stock-stat-num" style="color:var(--positive)">' + checked + '</div><div class="stock-stat-label">Sudah Dibeli</div></div>' +
-        '<div class="stock-stat"><div class="stock-stat-num" style="color:var(--warning)">' + unchecked + '</div><div class="stock-stat-label">Belum Dibeli</div></div>';
+           '<div class="stock-stat"><div class="stock-stat-num">' + checked + '</div><div class="stock-stat-label">Sudah Dibeli</div></div>' +
+        '<div class="stock-stat"><div class="stock-stat-num">' + unchecked + '</div><div class="stock-stat-label">Belum Dibeli</div></div>';
     }
 
     // List
