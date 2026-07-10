@@ -301,7 +301,7 @@ body {
 .jenis-pindah { background: rgba(245,239,230,0.05); color: var(--text-muted); }
 
 .prio-wajib { color: var(--text-primary); font-weight: 600; }
-.prio-boleh { color: var(--warning); }
+.prio-boleh { color: var(--text-secondary); }
 
 .mutasi-plus { color: var(--text-primary); }
 .mutasi-minus { color: var(--text-secondary); }
@@ -564,22 +564,22 @@ body {
   font-family: 'Nunito', sans-serif;
 }
 .status-warning {
-  color: var(--warning);
+  color: var(--text-secondary);
 }
 .pct-badge.status-warning {
-  background: rgba(255,193,7,0.15);
+background: rgba(245,239,230,0.08);
 }
 .pct-badge.status-over {
-  background: rgba(239,83,80,0.15);
+  background: rgba(245,239,230,0.06);
 }
 .pct-badge.status-aman {
-  background: rgba(139,195,74,0.1);
+  background: rgba(245,239,230,0.05);
 }
 .row-over {
-  background: rgba(239,83,80,0.05) !important;
+  background: rgba(245,239,230,0.04) !important;
 }
 .row-warning {
-  background: rgba(255,193,7,0.05) !important;
+  background: rgba(245,239,230,0.03) !important;
 }
 
 /* ===== STOCK OPNAME ===== */
