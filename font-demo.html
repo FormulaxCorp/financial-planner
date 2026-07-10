@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Font Demo — Fin Planner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Nunito:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+  background: #121212;
+      color: #e0e0e0;
+    padding: 16px;
+      font-family: 'Inter', sans-serif;
+    }
+    h1 {
+      font-size: 16px;
+      color: #aaa;
+      text-align: center;
+      margin-bottom: 20px;
+      font-weight: 400;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .font-card {
+ background: #1e1e1e;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+      border: 1px solid #2a2a2a;
+    }
+    .font-label {
+      font-size: 11px;
+      color: #888;
+ text-transform: uppercase;
+    letter-spacing: 0.08em;
+      margin-bottom: 10px;
+}
+    .font-name {
+      font-size: 13px;
+      font-weight: 700;
+color: #64b5f6;
+      margin-bottom: 12px;
+    }
+    .amount-large {
+      font-size: 22px;
+    font-weight: 700;
+      color: #fff;
+      margin-bottom: 6px;
+  }
+    .amount-medium {
+      font-size: 16px;
+      font-weight: 600;
+      color: #8bc34a;
+      margin-bottom: 4px;
+    }
+    .amount-small {
+font-size: 14px;
+      font-weight: 500;
+    color: #ef5350;
+      margin-bottom: 10px;
+    }
+.table-demo {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+ .table-demo td {
+      padding: 6px 4px;
+      border-bottom: 1px solid #2a2a2a;
+    }
+  .table-demo td:last-child {
+      text-align: right;
+      font-weight: 600;
+    }
+    .font-dm-sans { font-family: 'DM Sans', sans-serif; }
+    .font-jakarta { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .font-nunito  { font-family: 'Nunito', sans-serif; }
+    .font-inter   { font-family: 'Inter', sans-serif; }
+
+    .badge {
+      display: inline-block;
+      background: #2a2a2a;
+      border-radius: 6px;
+      padding: 2px 8px;
+      font-size: 11px;
+      color: #aaa;
+      margin-bottom: 8px;
+    }
+    .current { border-color: #444; }
+    .current .badge { background: #333; color: #64b5f6; }
+  </style>
+</head>
+<body>
+  <h1>🔤 Pilih Font Nominal</h1>
+
+  <!-- DM Sans -->
+  <div class="font-card font-dm-sans">
+    <div class="font-label">Opsi 1</div>
+    <div class="font-name">DM Sans</div>
+    <span class="badge">Clean • Modern • Rounded</span>
+    <div class="amount-large">Rp 4.715.292,39</div>
+    <div class="amount-medium">+ Rp 1.443.831,02</div>
+    <div class="amount-small">- Rp 2.626.677,32</div>
+    <table class="table-demo">
+      <tr><td>Blu</td><td>Rp 1.477.488,15</td></tr>
+      <tr><td>Hiroshi</td><td>Rp 4.715.292,39</td></tr>
+      <tr><td>E-money</td><td>Rp 97.598,00</td></tr>
+ </table>
+  </div>
+
+  <!-- Plus Jakarta Sans -->
+  <div class="font-card font-jakarta">
+    <div class="font-label">Opsi 2</div>
+    <div class="font-name">Plus Jakarta Sans</div>
+    <span class="badge">Modern • Sharp • Profesional</span>
+    <div class="amount-large">Rp 4.715.292,39</div>
+    <div class="amount-medium">+ Rp 1.443.831,02</div>
+    <div class="amount-small">- Rp 2.626.677,32</div>
+    <table class="table-demo">
+      <tr><td>Blu</td><td>Rp 1.477.488,15</td></tr>
+    <tr><td>Hiroshi</td><td>Rp 4.715.292,39</td></tr>
+      <tr><td>E-money</td><td>Rp 97.598,00</td></tr>
+    </table>
+  </div>
+
+  <!-- Nunito -->
+  <div class="font-card font-nunito">
+    <div class="font-label">Opsi 3</div>
+    <div class="font-name">Nunito</div>
+    <span class="badge">Rounded • Friendly • Soft</span>
+    <div class="amount-large">Rp 4.715.292,39</div>
+    <div class="amount-medium">+ Rp 1.443.831,02</div>
+    <div class="amount-small">- Rp 2.626.677,32</div>
+    <table class="table-demo">
+      <tr><td>Blu</td><td>Rp 1.477.488,15</td></tr>
+      <tr><td>Hiroshi</td><td>Rp 4.715.292,39</td></tr>
+      <tr><td>E-money</td><td>Rp 97.598,00</td></tr>
+    </table>
+  </div>
+
+  <!-- Inter (current) -->
+  <div class="font-card font-inter current">
+    <div class="font-label">Opsi 4</div>
+    <div class="font-name">Inter <span class="badge">yang sekarang dipakai</span></div>
+    <span class="badge" style="margin-left:0">Neutral • Standard • Familiar</span>
+    <div class="amount-large">Rp 4.715.292,39</div>
+    <div class="amount-medium">+ Rp 1.443.831,02</div>
+    <div class="amount-small">- Rp 2.626.677,32</div>
+    <table class="table-demo">
+      <tr><td>Blu</td><td>Rp 1.477.488,15</td></tr>
+      <tr><td>Hiroshi</td><td>Rp 4.715.292,39</td></tr>
+      <tr><td>E-money</td><td>Rp 97.598,00</td></tr>
+    </table>
+  </div>
+
+</body>
+</html>
