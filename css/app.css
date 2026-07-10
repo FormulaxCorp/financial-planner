@@ -11,9 +11,9 @@
   --bg-hover: #2a2a2a;
   --bg-header: #0d0d0d;
 
-  --text-primary: #f0f0f0;
-  --text-secondary: #a0a0a0;
-  --text-muted: #666;
+  --text-primary: #f5efe6;
+  --text-secondary: #b8a99a;
+  --text-muted: #7a6a5e;
 
   --border-color: #2a2a2a;
   --border-light: #333;
@@ -41,7 +41,7 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
   background: var(--bg-primary);
   color: var(--text-primary);
   line-height: 1.6;
@@ -49,7 +49,7 @@ body {
   overflow-x: hidden;
 }
 
-.mono { font-family: 'DM Mono', 'SF Mono', 'Consolas', monospace !important; letter-spacing: 0.01em; white-space: nowrap; }
+.mono { font-family: 'Nunito', sans-serif; font-weight: 600; white-space: nowrap; }
 
 /* ===== SCROLLBAR ===== */
 ::-webkit-scrollbar { width: 4px; }
@@ -184,8 +184,7 @@ body {
   border-radius: var(--radius-sm);
   cursor: pointer;
   font-size: 0.85rem;
-  font-family: 'Inter', sans-serif;
-  transition: all 0.2s;
+  font-family: 'Nunito', sans-serif;  transition: all 0.2s;
   margin-bottom: 8px;
 }
 .logout-btn:hover {
@@ -340,7 +339,7 @@ body {
 }
 .fund-name { font-weight: 600; font-size: 13px; }
 .fund-desc { font-size: 11px; color: var(--text-muted); margin: 2px 0 6px; }
-.fund-balance { font-size: 15px; font-weight: 700; font-family: 'DM Mono', 'SF Mono', 'Consolas', monospace !important; white-space: nowrap; }
+.fund-balance { font-size: 15px; font-weight: 600; font-family: 'Nunito', sans-serif; white-space: nowrap; }
 
 /* ===== REPORT ===== */
 .report-summary {
@@ -354,7 +353,7 @@ body {
   border: 1px solid var(--border-light);
 }
 .report-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); }
-.report-value { font-size: 16px; font-weight: 700; font-family: 'DM Mono', 'SF Mono', 'Consolas', monospace !important; margin-top: 4px; white-space: nowrap; }
+.report-value { font-size: 16px; font-weight: 600; font-family: 'Nunito', sans-serif; margin-top: 4px; white-space: nowrap; }
 .rp-income .report-value { color: var(--positive); }
 .rp-expense .report-value { color: var(--negative); }
 .rp-transfer .report-value { color: var(--info); }
@@ -408,7 +407,7 @@ body {
 .guide-text { font-size: 13px; line-height: 1.5; }
 .guide-example {
   display: block; margin-top: 4px;
-  font-family: 'SF Mono', 'Consolas', monospace;
+  font-family: 'Nunito', sans-serif;
   font-size: 11px; color: var(--text-muted);
   background: var(--bg-primary); padding: 4px 8px; border-radius: 4px;
 }
@@ -562,7 +561,7 @@ body {
   font-weight: 600;
   padding: 2px 6px;
   border-radius: 4px;
-  font-family: 'DM Mono', 'SF Mono', monospace !important;
+  font-family: 'Nunito', sans-serif;
 }
 .status-warning {
   color: var(--warning);
@@ -599,7 +598,7 @@ body {
 .stock-stat-num {
   font-size: 28px;
   font-weight: 700;
-  font-family: 'DM Mono', 'SF Mono', 'Fira Code', monospace !important;
+  font-family: 'Nunito', sans-serif;
 }
 .stock-stat-label {
   font-size: 12px;
@@ -768,7 +767,7 @@ body {
   font-size: 12px;
   color: var(--text-muted);
   margin-top: 4px;
-  font-family: 'DM Mono', 'SF Mono', monospace !important;
+  font-family: 'Nunito', sans-serif;
 }
 
 /* ===== MODAL ===== */
@@ -907,8 +906,7 @@ body {
   border-radius: var(--radius-md);
   color: var(--text-primary);
   font-size: 0.95rem;
-  font-family: 'Inter', sans-serif;
-  outline: none;
+  font-family: 'Nunito', sans-serif;  outline: none;
   transition: border-color 0.2s;
   box-sizing: border-box;
 }
@@ -925,8 +923,7 @@ body {
   cursor: pointer;
   font-size: 1rem;
   font-weight: 600;
-  font-family: 'Inter', sans-serif;
-  transition: background 0.2s;
+  font-family: 'Nunito', sans-serif;  transition: background 0.2s;
 }
 .login-submit-btn:hover {
   background: var(--accent-hover);
