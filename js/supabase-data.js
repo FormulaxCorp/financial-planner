@@ -297,9 +297,9 @@ const SupabaseData = (() => {
   }
 
   // ===== GET EXPENSE BY CATEGORY =====
-  function getExpenseByCategory() {
+  function getExpenseByCategory(monthStr) {
     const current = new Date();
-    const month = current.getFullYear() + '-' + String(current.getMonth() + 1).padStart(2, '0');
+    const month = monthStr || (current.getFullYear() + '-' + String(current.getMonth() + 1).padStart(2, '0'));
     const result = {};
     cache.transactions.forEach(t => {
       if (t.jenis === 'Keluar' && getMonth(t.tanggal) === month) {
@@ -310,9 +310,9 @@ const SupabaseData = (() => {
   }
 
   // ===== GET INCOME BY CATEGORY =====
-  function getIncomeByCategory() {
+  function getIncomeByCategory(monthStr) {
     const current = new Date();
-    const month = current.getFullYear() + '-' + String(current.getMonth() + 1).padStart(2, '0');
+    const month = monthStr || (current.getFullYear() + '-' + String(current.getMonth() + 1).padStart(2, '0'));
     const result = {};
     cache.transactions.forEach(t => {
       if (t.jenis === 'Masuk' && getMonth(t.tanggal) === month) {

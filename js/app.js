@@ -349,6 +349,15 @@
       if (e.key === 'Enter') addShoppingItem();
     });
     byId('resetShoppingBtn').addEventListener('click', resetShopping);
+
+    // Budget month selector
+    const bmSel = byId('budgetMonthSelect');
+    if (bmSel) {
+      populateBudgetMonths();
+      bmSel.addEventListener('change', () => {
+        try { renderBudget(); } catch(e) { console.warn('budget:', e); }
+      });
+    }
   }
 
   function byId(id) {
@@ -361,6 +370,43 @@
     const type = byId('catType').value;
     byId('catPicGroup').style.display = type === 'expense' ? 'block' : 'none';
     byId('catPrioGroup').style.display = type === 'expense' ? 'block' : 'none';
+  }
+
+  // ===== BUDGET MONTH SELECTOR =====
+  function populateBudgetMonths() {
+    const sel = byId('budgetMonthSelect');
+    if (!sel) return;
+    const months = new Set();
+    let transactions = [];
+    try { transactions = AppData.getTransactions(); } catch(e) {}
+    transactions.forEach(t => {
+      try {
+        const m = AppData.getMonth(t.tanggal);
+        if (m) months.add(m);
+      } catch(e) {}
+    });
+    const now = new Date();
+    const currentMonth = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0');
+    months.add(currentMonth);
+    // Also add previous month (so user can always see last month even without transactions)
+    const prev = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+    months.add(prev.getFullYear() + '-' + String(prev.getMonth() + 1).padStart(2, '0'));
+
+    sel.innerHTML = '<option value="current">Bulan Ini (' + monthLabel(currentMonth) + ')</option>';
+    const sorted = [...months].sort().reverse();
+    sorted.forEach(m => {
+      if (m === currentMonth) return;
+      const opt = document.createElement('option');
+      opt.value = m;
+      opt.textContent = monthLabel(m);
+      sel.appendChild(opt);
+    });
+  }
+
+  function monthLabel(monthStr) {
+    const [y, m] = monthStr.split('-').map(Number);
+    const d = new Date(y, m - 1, 1);
+    return d.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
   }
 
   // ===== FORM SETUP =====
@@ -1136,8 +1182,20 @@
     let budgetIncome = {}, budgetExpense = {}, incomeByCat = {}, expenseByCat = {};
     try { budgetIncome = AppData.getBudgetIncome(); } catch(e) {}
     try { budgetExpense = AppData.getBudgetExpense(); } catch(e) {}
-    try { incomeByCat = AppData.getIncomeByCategory(); } catch(e) {}
-    try { expenseByCat = AppData.getExpenseByCategory(); } catch(e) {}
+
+    // Determine selected month
+    const sel = byId('budgetMonthSelect');
+    let selectedMonth = null;
+    if (sel) selectedMonth = sel.value !== 'current' ? sel.value : null;
+
+    if (selectedMonth) {
+      try { incomeByCat = AppData.getIncomeByCategory(selectedMonth); } catch(e) {}
+      try { expenseByCat = AppData.getExpenseByCategory(selectedMonth); } catch(e) {}
+    } else {
+      try { incomeByCat = AppData.getIncomeByCategory(); } catch(e) {}
+      try { expenseByCat = AppData.getExpenseByCategory(); } catch(e) {}
+    }
+    const isCurrent = !selectedMonth;
 
     // Income
     const incomeBody = byId('budgetIncomeBody');
@@ -1172,17 +1230,21 @@
         const barWidth = Math.min(pct, 100);
         const rowCls = pct > 100 ? 'row-over' : (pct >= 80 ? 'row-warning' : '');
         const statusCls = pct > 100 ? 'status-over' : (pct >= 80 ? 'status-warning' : 'status-aman');
-        expenseBody.innerHTML += '<tr class="' + rowCls + '"><td>' + cat + '</td><td class="editable-cell" contenteditable="true" data-type="expense" data-cat="' + cat + '">' + budget.toFixed(2) + '</td><td>' + pic + '</td><td><span class="' + (prio === 'Wajib' ? 'prio-wajib' : 'prio-boleh') + '">' + prio + '</span></td><td><div class="progress-mini"><div class="progress-bar-mini" style="width:' + barWidth + '%;background:' + barColor + '"></div></div><span class="pct-badge ' + statusCls + '">' + pct + '%</span></td></tr>';
+        const editable = isCurrent ? ' contenteditable="true"' : '';
+        const editHint = isCurrent ? ' <span class="text-muted">(klik untuk edit)</span>' : '';
+        expenseBody.innerHTML += '<tr class="' + rowCls + '"><td>' + cat + '</td><td class="editable-cell"' + editable + ' data-type="expense" data-cat="' + cat + '">' + budget.toFixed(2) + '</td><td>' + pic + '</td><td><span class="' + (prio === 'Wajib' ? 'prio-wajib' : 'prio-boleh') + '">' + prio + '</span></td><td><div class="progress-mini"><div class="progress-bar-mini" style="width:' + barWidth + '%;background:' + barColor + '"></div></div><span class="pct-badge ' + statusCls + '">' + pct + '%</span></td></tr>';
       });
     }
 
-    // Editable listeners
-    $$('.editable-cell').forEach(cell => {
-      cell.addEventListener('blur', onBudgetEdit);
-      cell.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') { e.preventDefault(); cell.blur(); }
+    // Editable listeners (only for current month)
+    if (isCurrent) {
+      $$('.editable-cell').forEach(cell => {
+        cell.addEventListener('blur', onBudgetEdit);
+        cell.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') { e.preventDefault(); cell.blur(); }
+        });
       });
-    });
+    }
   }
 
   function onBudgetEdit(e) {

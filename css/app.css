@@ -363,6 +363,21 @@ body {
 .filter-bar {
   display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;
 }
+.budget-month-bar {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 14px;
+  padding: 10px 14px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+}
+.budget-month-bar label {
+  font-size: 13px; font-weight: 600; color: var(--text-secondary);
+  display: flex; align-items: center; gap: 6px;
+  white-space: nowrap;
+}
+.budget-month-bar .budget-month-select {
+  flex: 1; min-width: 160px; font-weight: 600;
+}
 .search-input {
   flex: 1; min-width: 140px;
   padding: 10px 14px;
