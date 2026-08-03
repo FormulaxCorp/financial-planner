@@ -60,6 +60,12 @@ const SupabaseData = (() => {
           case 'prioritas':
             cache.prioritasData = row.data.data || {};
             break;
+          case 'stock':
+            cache.stockItems = row.data.items || [];
+            break;
+          case 'shopping':
+            cache.shoppingItems = row.data.items || [];
+            break;
         }
       });
     } catch (error) {
