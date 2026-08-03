@@ -283,17 +283,18 @@ const SupabaseData = (() => {
   }
 
   // ===== GET CURRENT MONTH TOTALS =====
-  function getCurrentMonthTotals() {
+  function getCurrentMonthTotals(monthStr) {
     const current = new Date();
-    const month = current.getFullYear() + '-' + String(current.getMonth() + 1).padStart(2, '0');
-    let totalIncome = 0, totalExpense = 0;
+    const month = monthStr || (current.getFullYear() + '-' + String(current.getMonth() + 1).padStart(2, '0'));
+    let totalIncome = 0, totalExpense = 0, totalTransfer = 0;
     cache.transactions.forEach(t => {
       if (getMonth(t.tanggal) === month) {
         if (t.jenis === 'Masuk') totalIncome += t.nominal;
         else if (t.jenis === 'Keluar') totalExpense += t.nominal;
+        else if (t.jenis === 'Pindah') totalTransfer += t.nominal;
       }
     });
-    return { totalIncome, totalExpense, sisa: totalIncome - totalExpense };
+    return { totalIncome, totalExpense, totalTransfer, sisa: totalIncome - totalExpense };
   }
 
   // ===== GET EXPENSE BY CATEGORY =====

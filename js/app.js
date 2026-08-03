@@ -358,6 +358,15 @@
         try { renderBudget(); } catch(e) { console.warn('budget:', e); }
       });
     }
+
+    // Report month selector
+    const rmSel = byId('reportMonthSelect');
+    if (rmSel) {
+      populateBudgetMonths('reportMonthSelect');
+      rmSel.addEventListener('change', () => {
+        try { renderReport(); } catch(e) { console.warn('report:', e); }
+      });
+    }
   }
 
   function byId(id) {
@@ -373,8 +382,8 @@
   }
 
   // ===== BUDGET MONTH SELECTOR =====
-  function populateBudgetMonths() {
-    const sel = byId('budgetMonthSelect');
+  function populateBudgetMonths(targetId) {
+    const sel = byId(targetId || 'budgetMonthSelect');
     if (!sel) return;
     const months = new Set();
     let transactions = [];
@@ -1281,8 +1290,13 @@
   function renderReport() {
     let totals = {totalIncome:0,totalExpense:0,totalTransfer:0,sisa:0};
     let expenseByCat = {}, budgetExpense = {};
-    try { totals = AppData.getCurrentMonthTotals(); } catch(e) {}
-    try { expenseByCat = AppData.getExpenseByCategory(); } catch(e) {}
+
+    const sel = byId('reportMonthSelect');
+    let selectedMonth = null;
+    if (sel) selectedMonth = sel.value !== 'current' ? sel.value : null;
+
+    try { totals = AppData.getCurrentMonthTotals(selectedMonth || undefined); } catch(e) {}
+    try { expenseByCat = AppData.getExpenseByCategory(selectedMonth || undefined); } catch(e) {}
     try { budgetExpense = AppData.getBudgetExpense(); } catch(e) {}
 
     const summary = byId('reportSummary');
