@@ -11,6 +11,7 @@ const SupabaseData = (() => {
     funds: [],
     budgetIncome: {},
     budgetExpense: {},
+    budgetByMonth: {},
     incomeCats: [],
     expenseCats: [],
     picData: {},
@@ -47,8 +48,13 @@ const SupabaseData = (() => {
             cache.transactions = row.data.items || [];
             break;
           case 'budget':
-            cache.budgetIncome = row.data.income || {};
-            cache.budgetExpense = row.data.expense || {};
+            cache.budgetByMonth = row.data.byMonth || {};
+            // Backward compat: dulu data disimpan { income, expense } tanpa bulan
+            if (!cache.budgetByMonth[currentMonthKey()] && row.data.income) {
+              cache.budgetByMonth[currentMonthKey()] = { income: row.data.income || {}, expense: row.data.expense || {} };
+            }
+            cache.budgetIncome = undefined;
+            cache.budgetExpense = undefined;
             break;
           case 'categories':
             cache.incomeCats = row.data.income || [];
@@ -136,28 +142,51 @@ const SupabaseData = (() => {
   }
 
   // ===== BUDGET =====
-  function getBudgetIncome() {
-    return { ...cache.budgetIncome };
+  // Budget disimpan per-bulan: cache.budgetByMonth['2026-08'] = { income: {}, expense: {} }
+  function getBudgetIncome(monthStr) {
+    const month = monthStr || currentMonthKey();
+    return { ...getBudgetForMonth(month).income };
   }
 
-  function getBudgetExpense() {
-    return { ...cache.budgetExpense };
+  function getBudgetExpense(monthStr) {
+    const month = monthStr || currentMonthKey();
+    return { ...getBudgetForMonth(month).expense };
   }
 
-  async function updateBudget(budgetIncome, budgetExpense) {
-    cache.budgetIncome = budgetIncome;
-    cache.budgetExpense = budgetExpense;
-    return await saveDoc('budget', { income: budgetIncome, expense: budgetExpense });
+  function getBudgetForMonth(month) {
+    if (!cache.budgetByMonth) cache.budgetByMonth = {};
+    if (!cache.budgetByMonth[month]) {
+      cache.budgetByMonth[month] = { income: {}, expense: {} };
+    }
+    return cache.budgetByMonth[month];
   }
 
-  async function setBudgetIncome(data) {
-    cache.budgetIncome = data;
-    return await saveDoc('budget', { income: data, expense: cache.budgetExpense });
+  function currentMonthKey() {
+    const now = new Date();
+    return now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0');
   }
 
-  async function setBudgetExpense(data) {
-    cache.budgetExpense = data;
-    return await saveDoc('budget', { income: cache.budgetIncome, expense: data });
+  async function updateBudget(budgetIncome, budgetExpense, monthStr) {
+    const month = monthStr || currentMonthKey();
+    cache.budgetByMonth = cache.budgetByMonth || {};
+    cache.budgetByMonth[month] = { income: budgetIncome, expense: budgetExpense };
+    return await saveDoc('budget', { byMonth: cache.budgetByMonth });
+  }
+
+  async function setBudgetIncome(data, monthStr) {
+    const month = monthStr || currentMonthKey();
+    const b = getBudgetForMonth(month);
+    b.income = data;
+    cache.budgetByMonth[month] = b;
+    return await saveDoc('budget', { byMonth: cache.budgetByMonth });
+  }
+
+  async function setBudgetExpense(data, monthStr) {
+    const month = monthStr || currentMonthKey();
+    const b = getBudgetForMonth(month);
+    b.expense = data;
+    cache.budgetByMonth[month] = b;
+    return await saveDoc('budget', { byMonth: cache.budgetByMonth });
   }
 
   // ===== CATEGORIES =====

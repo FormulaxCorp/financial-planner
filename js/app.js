@@ -385,25 +385,18 @@
   function populateBudgetMonths(targetId) {
     const sel = byId(targetId || 'budgetMonthSelect');
     if (!sel) return;
-    const months = new Set();
-    let transactions = [];
-    try { transactions = AppData.getTransactions(); } catch(e) {}
-    transactions.forEach(t => {
-      try {
-        const m = AppData.getMonth(t.tanggal);
-        if (m) months.add(m);
-      } catch(e) {}
-    });
     const now = new Date();
     const currentMonth = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0');
-    months.add(currentMonth);
-    // Also add previous month (so user can always see last month even without transactions)
-    const prev = new Date(now.getFullYear(), now.getMonth() - 1, 1);
-    months.add(prev.getFullYear() + '-' + String(prev.getMonth() + 1).padStart(2, '0'));
+
+    // Generate 12 bulan terakhir + bulan depan
+    const months = [];
+    for (let i = -1; i <= 11; i++) {
+      const d = new Date(now.getFullYear(), now.getMonth() + i, 1);
+      months.push(d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0'));
+    }
 
     sel.innerHTML = '<option value="current">Bulan Ini (' + monthLabel(currentMonth) + ')</option>';
-    const sorted = [...months].sort().reverse();
-    sorted.forEach(m => {
+    months.forEach(m => {
       if (m === currentMonth) return;
       const opt = document.createElement('option');
       opt.value = m;
@@ -1188,23 +1181,22 @@
 
   // --- BUDGET ---
   function renderBudget() {
-    let budgetIncome = {}, budgetExpense = {}, incomeByCat = {}, expenseByCat = {};
-    try { budgetIncome = AppData.getBudgetIncome(); } catch(e) {}
-    try { budgetExpense = AppData.getBudgetExpense(); } catch(e) {}
-
-    // Determine selected month
     const sel = byId('budgetMonthSelect');
     let selectedMonth = null;
     if (sel) selectedMonth = sel.value !== 'current' ? sel.value : null;
 
-    if (selectedMonth) {
-      try { incomeByCat = AppData.getIncomeByCategory(selectedMonth); } catch(e) {}
-      try { expenseByCat = AppData.getExpenseByCategory(selectedMonth); } catch(e) {}
-    } else {
-      try { incomeByCat = AppData.getIncomeByCategory(); } catch(e) {}
-      try { expenseByCat = AppData.getExpenseByCategory(); } catch(e) {}
-    }
-    const isCurrent = !selectedMonth;
+    const viewingMonth = selectedMonth || (function() {
+      const now = new Date(); return now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0');
+    })();
+    const isCurrent = viewingMonth === (function() {
+      const now = new Date(); return now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0');
+    })();
+
+    let budgetIncome = {}, budgetExpense = {}, incomeByCat = {}, expenseByCat = {};
+    try { budgetIncome = AppData.getBudgetIncome(viewingMonth); } catch(e) {}
+    try { budgetExpense = AppData.getBudgetExpense(viewingMonth); } catch(e) {}
+    try { incomeByCat = AppData.getIncomeByCategory(viewingMonth); } catch(e) {}
+    try { expenseByCat = AppData.getExpenseByCategory(viewingMonth); } catch(e) {}
 
     // Income
     const incomeBody = byId('budgetIncomeBody');
@@ -1264,15 +1256,23 @@
     const cat = cell.dataset.cat;
     if (!cat) return;
 
+    // Save ke bulan yang sedang dilihat
+    const sel = byId('budgetMonthSelect');
+    let monthStr = null;
+    if (sel && sel.value !== 'current') monthStr = sel.value;
+    if (!monthStr) {
+      const now = new Date(); monthStr = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0');
+    }
+
     try {
       if (type === 'income') {
-        const budget = AppData.getBudgetIncome();
+        const budget = AppData.getBudgetIncome(monthStr);
         budget[cat] = val;
-        AppData.setBudgetIncome(budget);
+        AppData.setBudgetIncome(budget, monthStr);
       } else if (type === 'expense') {
-        const budget = AppData.getBudgetExpense();
+        const budget = AppData.getBudgetExpense(monthStr);
         budget[cat] = val;
-        AppData.setBudgetExpense(budget);
+        AppData.setBudgetExpense(budget, monthStr);
       } else if (type === 'startbalance') {
         const funds = AppData.getFunds();
         const fund = funds.find(f => f.id === cat);
@@ -1297,7 +1297,7 @@
 
     try { totals = AppData.getCurrentMonthTotals(selectedMonth || undefined); } catch(e) {}
     try { expenseByCat = AppData.getExpenseByCategory(selectedMonth || undefined); } catch(e) {}
-    try { budgetExpense = AppData.getBudgetExpense(); } catch(e) {}
+    try { budgetExpense = AppData.getBudgetExpense(selectedMonth || undefined); } catch(e) {}
 
     const summary = byId('reportSummary');
     if (summary) {

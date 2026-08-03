@@ -16,10 +16,10 @@ const AppData = (() => {
     updateFunds: (funds) => SupabaseData.updateFunds(funds),
     addFund: (fund) => SupabaseData.addFund(fund),
     
-    getBudgetIncome: () => SupabaseData.getBudgetIncome(),
-    getBudgetExpense: () => SupabaseData.getBudgetExpense(),
-    setBudgetIncome: (data) => SupabaseData.setBudgetIncome(data),
-    setBudgetExpense: (data) => SupabaseData.setBudgetExpense(data),
+    getBudgetIncome: (...args) => SupabaseData.getBudgetIncome(...args),
+    getBudgetExpense: (...args) => SupabaseData.getBudgetExpense(...args),
+    setBudgetIncome: (...args) => SupabaseData.setBudgetIncome(...args),
+    setBudgetExpense: (...args) => SupabaseData.setBudgetExpense(...args),
     
     getIncomeCategories: () => SupabaseData.getIncomeCats(),
     getExpenseCategories: () => SupabaseData.getExpenseCats(),
@@ -50,9 +50,9 @@ const AppData = (() => {
     isCurrentMonth: (str) => SupabaseData.isCurrentMonth(str),
     generateId: () => SupabaseData.generateId(),
     updateFundsFromTransactions: () => SupabaseData.updateFundsFromTransactions(),
-    getCurrentMonthTotals: () => SupabaseData.getCurrentMonthTotals(),
-    getExpenseByCategory: () => SupabaseData.getExpenseByCategory(),
-    getIncomeByCategory: () => SupabaseData.getIncomeByCategory(),
+    getCurrentMonthTotals: (...args) => SupabaseData.getCurrentMonthTotals(...args),
+    getExpenseByCategory: (...args) => SupabaseData.getExpenseByCategory(...args),
+    getIncomeByCategory: (...args) => SupabaseData.getIncomeByCategory(...args),
     
     getStockItems: () => SupabaseData.getStockItems(),
     addStockItem: (item) => SupabaseData.addStockItem(item),
