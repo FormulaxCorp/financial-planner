@@ -355,19 +355,30 @@ const SupabaseData = (() => {
     item.checked = false;
     item.createdAt = new Date().toISOString();
     cache.shoppingItems.push(item);
-    return await saveDoc('shopping', { items: cache.shoppingItems });
+    const ok = await saveDoc('shopping', { items: cache.shoppingItems });
+    if (!ok) {
+      // rollback cache kalau save gagal, supaya UI tidak menampilkan data palsu
+      cache.shoppingItems = cache.shoppingItems.filter(s => s.id !== item.id);
+    }
+    return ok;
   }
 
   async function updateShoppingItem(id, updates) {
     const idx = cache.shoppingItems.findIndex(s => s.id === id);
     if (idx === -1) return false;
-    cache.shoppingItems[idx] = { ...cache.shoppingItems[idx], ...updates };
-    return await saveDoc('shopping', { items: cache.shoppingItems });
+    const prev = cache.shoppingItems[idx];
+    cache.shoppingItems[idx] = { ...prev, ...updates };
+    const ok = await saveDoc('shopping', { items: cache.shoppingItems });
+    if (!ok) cache.shoppingItems[idx] = prev; // rollback
+    return ok;
   }
 
   async function deleteShoppingItem(id) {
+    const prev = cache.shoppingItems;
     cache.shoppingItems = cache.shoppingItems.filter(s => s.id !== id);
-    return await saveDoc('shopping', { items: cache.shoppingItems });
+    const ok = await saveDoc('shopping', { items: cache.shoppingItems });
+    if (!ok) cache.shoppingItems = prev; // rollback
+    return ok;
   }
 
   async function resetShoppingList() {

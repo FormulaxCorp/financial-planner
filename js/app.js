@@ -845,14 +845,18 @@
   }
 
   // --- SHOPPING LIST ---
-  function addShoppingItem() {
+  async function addShoppingItem() {
     const input = byId('shoppingInput');
     const catatanInput = byId('shoppingCatatan');
     const name = input.value.trim();
     if (!name) return;
 
     try {
-      AppData.addShoppingItem({ name, catatan: catatanInput.value.trim() });
+      const ok = await AppData.addShoppingItem({ name, catatan: catatanInput.value.trim() });
+      if (ok === false) {
+        alert('Gagal menyimpan ke server. Cek koneksi/login.');
+        return;
+      }
     } catch(e) {
       alert('Gagal menambah: ' + e.message);
       return;
@@ -864,27 +868,27 @@
     renderAll();
   }
 
-  function toggleShoppingItem(id, checked) {
+  async function toggleShoppingItem(id, checked) {
     try {
-      AppData.updateShoppingItem(id, { checked: !checked });
+      await AppData.updateShoppingItem(id, { checked: !checked });
     } catch(e) {}
     renderAll();
   }
 
-  function deleteShoppingItem(id) {
+  async function deleteShoppingItem(id) {
     try {
-      AppData.deleteShoppingItem(id);
+      await AppData.deleteShoppingItem(id);
     } catch(e) {}
     renderAll();
   }
 
-  function resetShopping() {
+  async function resetShopping() {
     const items = AppData.getShoppingItems();
     if (items.length === 0) return;
     const checkedCount = items.filter(i => i.checked).length;
     if (!confirm('Reset daftar belanja?\n' + (checkedCount > 0 ? checkedCount + ' item sudah dibeli akan dihapus.\n' : '') + (items.length - checkedCount) + ' item belum dibeli juga akan dihapus.')) return;
     try {
-      AppData.resetShoppingList();
+      await AppData.resetShoppingList();
     } catch(e) {
       alert('Gagal reset: ' + e.message);
       return;
