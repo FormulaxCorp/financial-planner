@@ -288,10 +288,10 @@ const SupabaseData = (() => {
 
   // ===== UPDATE FUNDS FROM TRANSACTIONS =====
   function updateFundsFromTransactions() {
-    // Reset all fund saldos to saldoAwal
-    cache.funds.forEach(f => { 
-      f.saldo = f.saldoAwal || 0;
-      f.balance = f.saldoAwal || 0;
+    // Reset all fund saldos to startBalance (saldo awal yang diedit user)
+    cache.funds.forEach(f => {
+      f.saldo = f.startBalance || 0;
+      f.balance = f.startBalance || 0;
     });
 
     // Apply transactions
