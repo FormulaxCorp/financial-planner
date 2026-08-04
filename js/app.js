@@ -74,6 +74,7 @@
         if (typeof SupabaseData !== 'undefined') {
           await SupabaseData.loadAllData();
         }
+        console.log('[DEBUG] loadAllData done. Transactions:', (SupabaseData.getTransactions() || []).length, 'Funds:', (SupabaseData.getFunds() || []).length);
         if (typeof renderAll === 'function') {
           renderAll();
         }

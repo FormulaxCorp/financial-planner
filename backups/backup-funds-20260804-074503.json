@@ -1,0 +1,275 @@
+[
+  {
+    "id": "transactions",
+    "data": {
+      "items": []
+    },
+    "user_id": "a9ba7e53-d69d-4834-a7ff-ef8fdc7dc5dd"
+  },
+  {
+    "id": "categories",
+    "data": {
+      "income": [
+        "Repayment",
+        "Other",
+        "Gifts",
+        "Interest",
+        "Paycheck"
+      ],
+      "expense": [
+        "Admin Fee",
+        "Henry's",
+        "Skin and Body Care",
+        "Mpi's",
+        "Travel Expenses",
+        "Utilities",
+        "Groceries",
+        "Phone Credit",
+        "Home",
+        "Other",
+        "Health and Medical",
+        "Food",
+        "Gifts",
+        "Loan",
+        "Entertainment",
+        "Hiroshi's",
+        "Zakat"
+      ]
+    },
+    "user_id": "a9ba7e53-d69d-4834-a7ff-ef8fdc7dc5dd"
+  },
+  {
+    "id": "pic",
+    "data": {
+      "data": {
+        "Food": "Vina/Henry",
+        "Home": "Vina/Henry",
+        "Loan": "Vina/Henry",
+        "Gifts": "Vina/Henry",
+        "Mpi's": "Vina/Henry",
+        "Other": "Vina/Henry",
+        "Zakat": "Vina/Henry",
+        "Henry's": "Vina/Henry",
+        "Admin Fee": "Vina/Henry",
+        "Groceries": "Vina/Henry",
+        "Hiroshi's": "Vina/Henry",
+        "Utilities": "Vina/Henry",
+        "Phone Credit": "Vina/Henry",
+        "Entertainment": "Vina/Henry",
+        "Travel Expenses": "Vina/Henry",
+        "Health and Medical": "Vina/Henry",
+        "Skin and Body Care": "Vina/Henry"
+      }
+    },
+    "user_id": "a9ba7e53-d69d-4834-a7ff-ef8fdc7dc5dd"
+  },
+  {
+    "id": "prioritas",
+    "data": {
+      "data": {
+        "Food": "Boleh",
+        "Home": "Boleh",
+        "Loan": "Boleh",
+        "Gifts": "Boleh",
+        "Mpi's": "Boleh",
+        "Other": "Boleh",
+        "Zakat": "Boleh",
+        "Henry's": "Boleh",
+        "Admin Fee": "Boleh",
+        "Groceries": "Boleh",
+        "Hiroshi's": "Boleh",
+        "Utilities": "Boleh",
+        "Phone Credit": "Boleh",
+        "Entertainment": "Boleh",
+        "Travel Expenses": "Boleh",
+        "Health and Medical": "Boleh",
+        "Skin and Body Care": "Boleh"
+      }
+    },
+    "user_id": "a9ba7e53-d69d-4834-a7ff-ef8fdc7dc5dd"
+  },
+  {
+    "id": "stock",
+    "data": {
+      "items": [
+        {
+          "id": 1785768139605,
+          "name": "Kertas label",
+          "sisa": 0,
+          "satuan": "pcs",
+          "catatan": "Ukuran 13*15",
+          "kategori": "Vina",
+          "kebutuhan": 1
+        }
+      ]
+    },
+    "user_id": "a9ba7e53-d69d-4834-a7ff-ef8fdc7dc5dd"
+  },
+  {
+    "id": "budget",
+    "data": {
+      "byMonth": {
+        "2026-08": {
+          "income": {
+            "Interest": 0,
+            "Paycheck": 3500000
+          },
+          "expense": {
+            "Food": 500000,
+            "Home": 255500,
+            "Gifts": 50000,
+            "Mpi's": 200000,
+            "Zakat": 100000,
+            "Henry's": 75000,
+            "Groceries": 600000,
+            "Hiroshi's": 600000,
+            "Utilities": 300000,
+            "Phone Credit": 100000,
+            "Entertainment": 142100,
+            "Travel Expenses": 150000,
+            "Health and Medical": 300000,
+            "Skin and Body Care": 150000
+          }
+        }
+      }
+    },
+    "user_id": "a9ba7e53-d69d-4834-a7ff-ef8fdc7dc5dd"
+  },
+  {
+    "id": "shopping",
+    "data": {
+      "items": [
+        {
+          "id": 1785768878528,
+          "name": "Kresek putih ukuran 32",
+          "catatan": "",
+          "checked": false,
+          "createdAt": "2026-08-03T14:54:37.929Z"
+        },
+        {
+          "id": 1785768884540,
+          "name": "Kertas label 4",
+          "catatan": "",
+          "checked": false,
+          "createdAt": "2026-08-03T14:54:43.717Z"
+        },
+        {
+          "id": 1785768893107,
+          "name": "Hand sanitizer pump",
+          "catatan": "",
+          "checked": false,
+          "createdAt": "2026-08-03T14:54:52.174Z"
+        }
+      ]
+    },
+    "user_id": "a9ba7e53-d69d-4834-a7ff-ef8fdc7dc5dd"
+  },
+  {
+    "id": "funds",
+    "data": {
+      "items": [
+        {
+          "id": "Rekening",
+          "desc": "",
+          "name": "Rekening",
+          "saldo": 0,
+          "target": "",
+          "balance": 0,
+          "saldoAwal": 0,
+          "startBalance": 0
+        },
+        {
+          "id": "Cash",
+          "desc": "",
+          "name": "Cash",
+          "saldo": 0,
+          "target": "",
+          "balance": 0,
+          "saldoAwal": 0,
+          "startBalance": 0
+        },
+        {
+          "id": "Blu",
+          "desc": "",
+          "name": "Blu",
+          "saldo": 0,
+          "target": "",
+          "balance": 0,
+          "saldoAwal": 0,
+          "startBalance": 636809.1
+        },
+        {
+          "id": "Comfort Life",
+          "desc": "",
+          "name": "Comfort Life",
+          "saldo": 0,
+          "target": "",
+          "balance": 0,
+          "saldoAwal": 0,
+          "startBalance": 604064.04
+        },
+        {
+          "id": "Hiroshi",
+          "desc": "",
+          "name": "Hiroshi",
+          "saldo": 0,
+          "target": "",
+          "balance": 0,
+          "saldoAwal": 0,
+          "startBalance": 4600700.3
+        },
+        {
+          "id": "Education",
+          "desc": "",
+          "name": "Education",
+          "saldo": 0,
+          "target": "",
+          "balance": 0,
+          "saldoAwal": 0,
+          "startBalance": 502487.36
+        },
+        {
+          "id": "Hiro's Room",
+          "desc": "",
+          "name": "Hiro's Room",
+          "saldo": 0,
+          "target": "",
+          "balance": 0,
+          "saldoAwal": 0,
+          "startBalance": 502487.36
+        },
+        {
+          "id": "E-money",
+          "desc": "",
+          "name": "E-money",
+          "saldo": 0,
+          "target": "",
+          "balance": 0,
+          "saldoAwal": 0,
+          "startBalance": 0
+        },
+        {
+          "id": "Fidyah",
+          "desc": "",
+          "name": "Fidyah",
+          "saldo": 0,
+          "target": "",
+          "balance": 0,
+          "saldoAwal": 0,
+          "startBalance": 301865.52
+        },
+        {
+          "id": "HBD hiro",
+          "desc": "",
+          "name": "HBD hiro",
+          "saldo": 0,
+          "target": "",
+          "balance": 0,
+          "saldoAwal": 0,
+          "startBalance": 600764.46
+        }
+      ]
+    },
+    "user_id": "a9ba7e53-d69d-4834-a7ff-ef8fdc7dc5dd"
+  }
+]
