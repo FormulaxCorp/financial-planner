@@ -33,9 +33,58 @@
   --shadow: 0 2px 12px rgba(0,0,0,0.4);
   --shadow-lg: 0 8px 32px rgba(0,0,0,0.6);
 
+  /* Tokens adaptif (dark = default) */
+  --chip-1: rgba(245,239,230,0.08);
+  --chip-2: rgba(245,239,230,0.06);
+  --chip-3: rgba(245,239,230,0.05);
+  --row-over: rgba(245,239,230,0.04);
+  --row-warning: rgba(245,239,230,0.03);
+  --scrollbar: #444;
+  --logo-ring: #e0e0e0;
+  --logo-fill: #e0e0e0;
+  --logo-text: #161616;
+
   --nav-height: 56px;
   --bottom-nav-height: 64px;
   --sidebar-width: 280px;
+}
+
+/* ===== LIGHT THEME ===== */
+[data-theme="light"] {
+  --bg-primary: #f7f3ee;
+  --bg-secondary: #ffffff;
+  --bg-card: #ffffff;
+  --bg-elevated: #ffffff;
+  --bg-hover: #efe8df;
+  --bg-header: rgba(255,255,255,0.92);
+
+  --text-primary: #3a322b;
+  --text-secondary: #6f6155;
+  --text-muted: #9c8d7e;
+
+  --border-color: #e5ddd2;
+  --border-light: #efe8df;
+
+  --accent: #4a5560;
+  --accent-hover: #38424c;
+
+  --positive: #4e9a3f;
+  --negative: #d6453f;
+  --warning: #b8791f;
+  --info: #2f6fb0;
+
+  --shadow: 0 2px 10px rgba(80,60,40,0.10);
+  --shadow-lg: 0 8px 28px rgba(80,60,40,0.18);
+
+  --chip-1: rgba(58,50,43,0.10);
+  --chip-2: rgba(58,50,43,0.07);
+  --chip-3: rgba(58,50,43,0.06);
+  --row-over: rgba(214,69,63,0.06);
+  --row-warning: rgba(184,121,31,0.07);
+  --scrollbar: #cfc4b5;
+  --logo-ring: #4a5560;
+  --logo-fill: #4a5560;
+  --logo-text: #ffffff;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -54,7 +103,7 @@ body {
 /* ===== SCROLLBAR ===== */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #444; border-radius: 2px; }
+::-webkit-scrollbar-thumb { background: var(--scrollbar); border-radius: 2px; }
 
 /* ===== SPLASH ===== */
 .splash-screen {
@@ -296,9 +345,9 @@ body {
   border-radius: 4px;
   font-size: 11px; font-weight: 600;
 }
-.jenis-masuk { background: rgba(245,239,230,0.08); color: var(--text-primary); }
-.jenis-keluar { background: rgba(245,239,230,0.06); color: var(--text-secondary); }
-.jenis-pindah { background: rgba(245,239,230,0.05); color: var(--text-muted); }
+.jenis-masuk { background: var(--chip-1); color: var(--text-primary); }
+.jenis-keluar { background: var(--chip-2); color: var(--text-secondary); }
+.jenis-pindah { background: var(--chip-3); color: var(--text-muted); }
 
 .prio-wajib { color: var(--text-primary); font-weight: 600; }
 .prio-boleh { color: var(--text-secondary); }
@@ -582,19 +631,19 @@ body {
   color: var(--text-secondary);
 }
 .pct-badge.status-warning {
-background: rgba(245,239,230,0.08);
+background: var(--chip-1);
 }
 .pct-badge.status-over {
-  background: rgba(245,239,230,0.06);
+  background: var(--chip-2);
 }
 .pct-badge.status-aman {
-  background: rgba(245,239,230,0.05);
+  background: var(--chip-3);
 }
 .row-over {
-  background: rgba(245,239,230,0.04) !important;
+  background: var(--row-over) !important;
 }
 .row-warning {
-  background: rgba(245,239,230,0.03) !important;
+  background: var(--row-warning) !important;
 }
 
 /* ===== STOCK OPNAME ===== */

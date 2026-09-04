@@ -11,7 +11,11 @@
   <link rel="manifest" href="manifest.json">
   <link rel="icon" href="icons/favicon.png" type="image/png">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <link rel="stylesheet" href="css/app.css?v=20260904">
+  <script>
+// Terapkan tema tersimpan SEBELUM render pertama (anti-flash)
+(function(){try{var t=localStorage.getItem('finplanner_theme');if(t==='light')document.documentElement.setAttribute('data-theme','light');}catch(e){}})();
+</script>
+<link rel="stylesheet" href="css/app.css?v=theme1">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -26,9 +30,9 @@
     <div class="login-card">
       <div class="login-logo">
         <svg width="56" height="56" viewBox="0 0 100 100">
-          <polygon points="50,10 90,50 50,90 10,50" fill="none" stroke="#e0e0e0" stroke-width="2"/>
-          <polygon points="50,24 76,50 50,76 24,50" fill="#e0e0e0"/>
-          <text x="50" y="54" text-anchor="middle" font-family="'Inter',sans-serif" font-size="18" font-weight="bold" fill="#161616">FP</text>
+          <polygon points="50,10 90,50 50,90 10,50" fill="none" stroke="var(--logo-ring)" stroke-width="2"/>
+          <polygon points="50,24 76,50 50,76 24,50" fill="var(--logo-fill)"/>
+          <text x="50" y="54" text-anchor="middle" font-family="'Inter',sans-serif" font-size="18" font-weight="bold" fill="var(--logo-text)">FP</text>
         </svg>
       </div>
       <h2>Our Financial Planner</h2>
@@ -51,9 +55,9 @@
     <div class="splash-content">
       <div class="splash-icon">
         <svg width="56" height="56" viewBox="0 0 100 100">
-          <polygon points="50,10 90,50 50,90 10,50" fill="none" stroke="#e0e0e0" stroke-width="2"/>
-          <polygon points="50,24 76,50 50,76 24,50" fill="#e0e0e0"/>
-          <text x="50" y="54" text-anchor="middle" font-family="'Inter',sans-serif" font-size="18" font-weight="bold" fill="#161616">FP</text>
+          <polygon points="50,10 90,50 50,90 10,50" fill="none" stroke="var(--logo-ring)" stroke-width="2"/>
+          <polygon points="50,24 76,50 50,76 24,50" fill="var(--logo-fill)"/>
+          <text x="50" y="54" text-anchor="middle" font-family="'Inter',sans-serif" font-size="18" font-weight="bold" fill="var(--logo-text)">FP</text>
         </svg>
       </div>
       <h1>Our Financial Planner</h1>
@@ -70,24 +74,27 @@
       </button>
       <div class="nav-title">
         <svg width="24" height="24" viewBox="0 0 100 100" style="flex-shrink:0">
-          <polygon points="50,12 88,50 50,88 12,50" fill="none" stroke="#e0e0e0" stroke-width="2"/>
-          <polygon points="50,27 73,50 50,73 27,50" fill="#e0e0e0"/>
-          <text x="50" y="54" text-anchor="middle" font-family="'Inter',sans-serif" font-size="16" font-weight="bold" fill="#161616">FP</text>
+          <polygon points="50,12 88,50 50,88 12,50" fill="none" stroke="var(--logo-ring)" stroke-width="2"/>
+          <polygon points="50,27 73,50 50,73 27,50" fill="var(--logo-fill)"/>
+          <text x="50" y="54" text-anchor="middle" font-family="'Inter',sans-serif" font-size="16" font-weight="bold" fill="var(--logo-text)">FP</text>
         </svg>
         <span>Fin Planner</span>
-      </div>
-      <button class="refresh-btn" id="refreshBtn" aria-label="Refresh">
-        <i class="fas fa-sync-alt"></i>
-      </button>
-    </header>
+        </div>
+        <button class="refresh-btn" id="themeToggleBtn" aria-label="Ganti tema">
+          <i class="fas fa-sun"></i>
+        </button>
+        <button class="refresh-btn" id="refreshBtn" aria-label="Refresh">
+          <i class="fas fa-sync-alt"></i>
+        </button>
+        </header>
 
     <!-- SIDEBAR -->
     <nav class="sidebar" id="sidebar">
       <div class="sidebar-header">
         <svg width="28" height="28" viewBox="0 0 100 100" style="flex-shrink:0">
-          <polygon points="50,12 88,50 50,88 12,50" fill="none" stroke="#e0e0e0" stroke-width="2"/>
-          <polygon points="50,27 73,50 50,73 27,50" fill="#e0e0e0"/>
-          <text x="50" y="54" text-anchor="middle" font-family="'Inter',sans-serif" font-size="16" font-weight="bold" fill="#161616">FP</text>
+          <polygon points="50,12 88,50 50,88 12,50" fill="none" stroke="var(--logo-ring)" stroke-width="2"/>
+          <polygon points="50,27 73,50 50,73 27,50" fill="var(--logo-fill)"/>
+          <text x="50" y="54" text-anchor="middle" font-family="'Inter',sans-serif" font-size="16" font-weight="bold" fill="var(--logo-text)">FP</text>
         </svg>
         <span class="sidebar-title">Our Financial Planner</span>
         <button class="sidebar-close" id="sidebarClose"><i class="fas fa-times"></i></button>
@@ -510,10 +517,10 @@
     </div>
   </div>
 
-  <script src="js/supabase-init.js?v=20260904"></script>
-  <script src="js/supabase-data.js?v=20260904"></script>
-  <script src="js/data.js?v=20260904"></script>
-  <script src="js/chart.js?v=20260904"></script>
-  <script src="js/app.js?v=20260904"></script>
+  <script src="js/supabase-init.js?v=theme1"></script>
+  <script src="js/supabase-data.js?v=theme1"></script>
+  <script src="js/data.js?v=theme1"></script>
+  <script src="js/chart.js?v=theme1"></script>
+  <script src="js/app.js?v=theme1"></script>
 </body>
 </html>

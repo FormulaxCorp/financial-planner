@@ -307,6 +307,24 @@
       setTimeout(() => byId('refreshBtn').classList.remove('fa-spin'), 600);
     });
 
+    // Theme toggle (dark <-> light)
+    var themeBtn = byId('themeToggleBtn');
+    if (themeBtn) {
+      themeBtn.addEventListener('click', function() {
+        var root = document.documentElement;
+        var isLight = root.getAttribute('data-theme') === 'light';
+        if (isLight) {
+          root.removeAttribute('data-theme'); // kembali ke dark
+          try { localStorage.setItem('finplanner_theme', 'dark'); } catch(e) {}
+          themeBtn.firstElementChild.className = 'fas fa-sun';
+        } else {
+          root.setAttribute('data-theme', 'light');
+          try { localStorage.setItem('finplanner_theme', 'light'); } catch(e) {}
+          themeBtn.firstElementChild.className = 'fas fa-moon';
+        }
+      });
+    }
+
     // Logout button
     byId('logoutBtn').addEventListener('click', async () => {
       if (confirm('Yakin mau logout?')) {
@@ -1418,6 +1436,15 @@
   }
 
   // ===== START =====
+  (function() {
+    // Sinkronkan ikon tombol tema dengan tema tersimpan
+    try {
+      var t = localStorage.getItem('finplanner_theme');
+      var btn = byId('themeToggleBtn');
+      if (btn && btn.firstElementChild) btn.firstElementChild.className = (t === 'light') ? 'fas fa-moon' : 'fas fa-sun';
+    } catch(e) {}
+  })();
+
   if (document.readyState === 'complete' || document.readyState === 'interactive') {
     init();
   } else {
