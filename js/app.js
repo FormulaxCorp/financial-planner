@@ -75,6 +75,8 @@
           await SupabaseData.loadAllData();
         }
         console.log('[DEBUG] loadAllData done. Transactions:', (SupabaseData.getTransactions() || []).length, 'Funds:', (SupabaseData.getFunds() || []).length);
+        // Isi ulang dropdown form setelah data siap (setupForm dipanggil init sebelum data load)
+        setupForm();
         if (typeof renderAll === 'function') {
           renderAll();
         }
