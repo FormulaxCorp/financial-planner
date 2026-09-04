@@ -549,8 +549,8 @@ body {
   position: static;
 }
 .fab-transfer {
-  background: var(--info) !important;
-  color: #000 !important;
+  background: #6f5b48 !important;
+  color: #fff !important;
 }
 
 /* ===== BUDGET ALERTS ===== */
