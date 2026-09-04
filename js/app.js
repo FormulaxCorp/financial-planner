@@ -241,7 +241,18 @@
   }
 
   function registerSW() {
-    // Service worker removed - no longer needed
+    // Service worker dihapus dari repo - tapi SW lama yang masih teregister di browser
+    // TETAP aktif dan serve versi JS lama (cache). Uninstall semua + bersihkan cache.
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(regs => {
+        regs.forEach(r => r.unregister());
+        console.log('[SW] ' + regs.length + ' service worker lama di-unregister');
+      }).catch(() => {});
+      // Bersihkan semua cache yang dibuat SW lama
+      if ('caches' in window) {
+        caches.keys().then(keys => keys.forEach(k => caches.delete(k)));
+      }
+    }
   }
 
   // ===== NAVIGATION =====
