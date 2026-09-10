@@ -918,6 +918,12 @@ background: var(--chip-1);
   border: 1px solid var(--border-color);
 }
 .btn-secondary:active { background: var(--bg-hover); }
+.btn-danger {
+  background: transparent;
+  color: var(--negative);
+  border: 1px solid var(--negative);
+}
+.btn-danger:active { opacity: 0.8; }
 
 /* ===== LOGIN SCREEN ===== */
 .login-screen {

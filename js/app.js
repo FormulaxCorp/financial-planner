@@ -342,6 +342,7 @@
     byId('modalClose').addEventListener('click', closeModal);
     byId('modalCancel').addEventListener('click', closeModal);
     byId('modalSave').addEventListener('click', saveTransaction);
+    byId('modalDelete').addEventListener('click', deleteTransaction);
 
     byId('formJenis').addEventListener('change', () => {
       const jenis = byId('formJenis').value;
@@ -534,12 +535,30 @@
       updateKategoriOptions();
       byId('formPosTujuanGroup').style.display = 'none';
     }
+    // Tombol Hapus hanya muncul saat mode edit
+    byId('modalDelete').style.display = isEditing ? '' : 'none';
     byId('transModal').classList.add('open');
   }
 
   function closeModal() {
     byId('transModal').classList.remove('open');
     editId = null;
+  }
+
+  function deleteTransaction() {
+    if (!editId) return;
+    const t = AppData.getTransactions().find(x => x.id === editId);
+    const label = t ? (t.keterangan || t.kategori || ('#' + t.id)) : ('#' + editId);
+    const msg = 'Hapus transaksi ini?\n\n' + label + '\n' + (t ? AppData.formatRp(t.nominal || 0) : '');
+    if (!confirm(msg + '\n\nSaldo pos akan disesuaikan otomatis.')) return;
+    try {
+      AppData.deleteTransaction(editId);
+    } catch(e) {
+      alert('Gagal menghapus: ' + e.message);
+      return;
+    }
+    closeModal();
+    renderAll();
   }
 
   function saveTransaction() {

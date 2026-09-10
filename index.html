@@ -15,7 +15,7 @@
 // Terapkan tema tersimpan SEBELUM render pertama (anti-flash)
 (function(){try{var t=localStorage.getItem('finplanner_theme');if(t==='light')document.documentElement.setAttribute('data-theme','light');}catch(e){}})();
 </script>
-<link rel="stylesheet" href="css/app.css?v=fab2">
+<link rel="stylesheet" href="css/app.css?v=del1">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -367,6 +367,7 @@
       </div>
       <div class="modal-footer">
         <button class="btn btn-secondary" id="modalCancel">Batal</button>
+        <button class="btn btn-danger" id="modalDelete" style="display:none"><i class="fas fa-trash-alt"></i> Hapus</button>
         <button class="btn btn-primary" id="modalSave">Simpan</button>
       </div>
     </div>
@@ -517,10 +518,10 @@
     </div>
   </div>
 
-  <script src="js/supabase-init.js?v=fab2"></script>
-  <script src="js/supabase-data.js?v=fab2"></script>
-  <script src="js/data.js?v=fab2"></script>
-  <script src="js/chart.js?v=fab2"></script>
-  <script src="js/app.js?v=fab2"></script>
+  <script src="js/supabase-init.js?v=del1"></script>
+  <script src="js/supabase-data.js?v=del1"></script>
+  <script src="js/data.js?v=del1"></script>
+  <script src="js/chart.js?v=del1"></script>
+  <script src="js/app.js?v=del1"></script>
 </body>
 </html>
